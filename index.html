@@ -1,0 +1,2524 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="google-site-verification" content="bCEmKbBhUZqRm7DoRMa_-kSezMLWlSNgFuBfVVOTZVs" />
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MBM App">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <title>Baitul Muttaqin Digital Hub - Mushola Baitul Muttaqin Dk Temu Tamansari Jatinegara Tegal</title>
+
+    <meta name="description" content="Portal Digital Musholah Baitul Muttaqin Dk. Temu, Tamansari, Tegal. Profil mushola, warta mushola, layanan ZIS, transparansi laporan kas, dan agenda kegiatan jamaah secara real-time.">
+    <meta name="keywords" content="Musholah Baitul Muttaqin, Baitul Muttaqin Dk Temu, Musholah Tamansari Jatinegara, Musholah Jatinegara Tegal, Musholah Tegal, Kas Musholah Digital">
+    <meta property="og:site_name" content="Baitul Muttaqin Digital Hub">
+    <meta property="og:title" content="Baitul Muttaqin Digital Hub - Musholah Baitul Muttaqin Dk. Temu">
+    <meta property="og:description" content="Cek jadwal sholat, laporan kas, dan agenda kegiatan Musholah Baitul Muttaqin secara transparan.">
+    <meta property="og:url" content="https://musholahbaitulmuttaqinv2.pages.dev/">
+    <meta property="og:image" content="https://musholahbaitulmuttaqinv2.pages.dev/Logo.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:type" content="website">
+
+    <meta name="geo.region" content="ID-JT">
+    <meta name="geo.placename" content="Tegal">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+
+ /* Perbaikan Scroll Beranda */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.scroll-snap-x { scroll-snap-type: x mandatory; }
+.snap-item { scroll-snap-align: start; }
+
+        .image-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeInUp 0.6s ease-out forwards; }
+
+        /* Pastikan warna teks utama selalu gelap di mode terang */
+body:not(.dark-mode) .text-slate-900 {
+    color: #0f172a !important;
+}
+
+body:not(.dark-mode) .text-slate-800 {
+    color: #1e293b !important;
+}
+
+        /* Tema Gelap Custom */
+        body.dark-mode { background-color: #0f172a; color: #f1f5f9; }
+        .dark-mode .bg-white { background-color: #1e293b; border-color: #334155; }
+        .dark-mode .text-slate-900 { color: #f1f5f9; }
+        .dark-mode .text-slate-800 { color: #e2e8f0; }
+        .dark-mode .text-slate-500 { color: #94a3b8; }
+        .dark-mode nav { background-color: rgba(30, 41, 59, 0.9); border-color: #334155; }
+        .dark-mode .bg-slate-50 { background-color: #0f172a; }
+        .dark-mode .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.1); }
+        .dark-mode .border-slate-100 { border-color: #334155; }
+        .dark-mode .sticky { background-color: rgba(30, 41, 59, 0.8); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 pb-24 transition-colors duration-300">
+
+    <!-- Header -->
+  <header style="background-color: white !important;" class="relative w-full h-[45vh] min-h-[350px] overflow-hidden rounded-b-[3.5rem] shadow-2xl flex items-center justify-center">
+    
+    <div style="background-color: white !important;" class="w-full h-full flex items-center justify-center p-8">
+        <img src="Logo.png" alt="Logo Baitul Muttaqin" class="w-full h-full object-contain">
+    </div>
+    
+    <button onclick="toggleDarkMode()" class="absolute top-12 left-6 z-30 bg-slate-100 p-2 rounded-2xl border border-slate-200 backdrop-blur-md active:scale-95 transition-transform shadow-sm">
+        <i id="theme-icon" data-lucide="moon" class="w-5 h-5 text-slate-700"></i>
+    </button>
+      <button onclick="toggleMars()" class="absolute top-28 left-6 z-30 bg-slate-100 p-2 rounded-2xl border border-emerald-200 backdrop-blur-md active:scale-95 transition-transform shadow-sm group">
+    <i id="mars-icon" data-lucide="music" class="w-5 h-5 text-emerald-700 group-active:text-emerald-900"></i>
+    <audio id="mars-audio" loop>
+        <source src="audio/mars-baitul-muttaqin.mp3" type="audio/mpeg">
+    </audio>
+      </button>
+
+<button onclick="refreshData()" class="absolute top-12 right-6 z-30 bg-white/80 p-2 rounded-2xl border border-slate-200 backdrop-blur-md active:rotate-180 transition-all duration-500 shadow-sm group">
+    <i id="refresh-icon" data-lucide="refresh-cw" class="w-5 h-5 text-emerald-600"></i>
+</button>
+
+    <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/5 to-transparent pointer-events-none"></div>
+</header>
+
+<section class="max-w-5xl mx-auto -mt-10 px-6 grid grid-cols-2 gap-3 mb-10 relative z-20">
+  <div onclick="openPrayerCalendar()" class="bg-white dark:bg-slate-800 p-4 rounded-3xl ...">
+    <div>
+        <p id="label-sholat" class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Memuat...</p>
+        <p id="waktu-sholat" class="text-sm font-black text-slate-700 dark:text-white">--:--</p>
+        <p class="text-[7px] text-emerald-600 font-bold uppercase mt-0.5">Lihat Jadwal 1 Thn</p>
+    </div>
+</div>
+
+<div onclick="openRincianKas()" class="bg-slate-900 p-4 rounded-3xl shadow-lg border border-slate-800 flex items-center gap-3 active:scale-95 transition-all cursor-pointer">
+    <div class="bg-orange-500/20 p-2 rounded-2xl text-orange-400">
+        <i data-lucide="wallet" class="w-5 h-5"></i>
+    </div>
+    <div>
+        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Saldo Kas</p>
+        <p id="saldo-kas-display" class="text-sm font-black text-white">Rp 0</p>
+        <p class="text-[7px] text-orange-500 font-bold uppercase mt-0.5">Lihat Rincian ›</p>
+    </div>
+</div>
+
+
+</section>
+
+
+
+    <!-- Konten Dinamis -->
+    <main id="main-view" class="max-w-5xl mx-auto px-6 space-y-10">
+        <!-- Konten akan dirender oleh JavaScript -->
+    </main>
+
+    <!-- Overlay Menu Layanan -->
+    <div id="service-menu" class="fixed inset-0 z-[110] invisible opacity-0 transition-all duration-300">
+        <div onclick="toggleServiceMenu()" class="absolute inset-0 bg-emerald-950/95 backdrop-blur-md"></div>
+        <div class="relative min-h-full flex flex-col
+            pt-20 pb-10 px-6
+            overflow-y-auto overscroll-contain">
+
+            <div class="flex justify-between items-center mb-12">
+                <div class="text-white">
+                    <h2 class="text-3xl font-black italic tracking-tighter">LAYANAN</h2>
+                    <p class="text-emerald-400 text-[10px] font-bold uppercase tracking-[0.3em]">Baitul Muttaqin Digital Hub</p>
+                </div>
+                <button onclick="toggleServiceMenu()" class="bg-white/10 text-white p-4 rounded-full active:scale-90 transition-transform">
+                    <i data-lucide="x" class="w-8 h-8"></i>
+                </button>
+            </div>
+
+            <!-- Grid Ikon -->
+            <div class="
+    grid
+    grid-cols-3
+    sm:grid-cols-3
+    md:grid-cols-4
+    lg:grid-cols-5
+    xl:grid-cols-6
+    gap-x-4
+    gap-y-8
+">
+
+              <button onclick="handleMenuClick('profil')" class="flex flex-col items-center gap-4 group">
+                    <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-2xl group-active:scale-90 transition-transform">
+                        <i data-lucide="building-2" class="w-10 h-10 text-emerald-700"></i>
+                    </div>
+                    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Profil Mushola</span>
+                </button>
+  <button onclick="handleMenuClick('zis')" class="flex flex-col items-center gap-4 group">
+                    <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-2xl group-active:scale-90 transition-transform">
+                        <i data-lucide="hand-coins" class="w-10 h-10 text-emerald-700"></i>
+                    </div>
+                    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Layanan ZIS</span>
+                </button>
+               
+<button onclick="handleMenuClick('donasi-khusus')" class="flex flex-col items-center gap-4 group">
+    <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-2xl group-active:scale-90 transition-transform">
+        <i data-lucide="package-search" class="w-10 h-10 text-emerald-700"></i>
+    </div>
+    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Donasi Khusus</span>
+</button>
+
+ <button onclick="handleMenuClick('amal')" class="flex flex-col items-center gap-4 group">
+                    <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-2xl group-active:scale-90 transition-transform">
+                        <i data-lucide="shopping-bag" class="w-10 h-10 text-emerald-700"></i>
+                    </div>
+                    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Amal Usaha</span>
+                </button>
+<button onclick="showSponsorModal()" class="flex flex-col items-center gap-4 group">
+    <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-2xl group-active:scale-90 transition-transform">
+        <i data-lucide="award" class="w-10 h-10 text-emerald-700"></i>
+    </div>
+    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Sponsor</span>
+</button>
+
+<button onclick="showDonaturModal()" class="flex flex-col items-center gap-4 group">
+    <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-2xl group-active:scale-90 transition-transform">
+        <i data-lucide="heart-handshake" class="w-10 h-10 text-emerald-700"></i>
+    </div>
+    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Donatur</span>
+</button>
+
+<button onclick="handleMenuClick('aset')" class="flex flex-col items-center gap-4 group">
+    <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-2xl group-active:scale-90 transition-transform">
+        <i data-lucide="database" class="w-10 h-10 text-emerald-700"></i>
+    </div>
+    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Aset & Inventaris</span>
+</button>
+
+<button onclick="openDevModal()" class="flex flex-col items-center gap-4 group">
+    <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-2xl group-active:scale-90 transition-transform">
+        <i data-lucide="code-2" class="w-10 h-10 text-emerald-700"></i>
+    </div>
+    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Developer</span>
+</button>
+
+                <button class="flex flex-col items-center gap-4 group opacity-40">
+                    <div class="w-20 h-20 bg-white/10 border border-white/20 rounded-[2rem] flex items-center justify-center group-active:scale-90 transition-transform">
+                        <i data-lucide="users" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Data Jamaah</span>
+                </button>
+                <button class="flex flex-col items-center gap-4 group opacity-40">
+                    <div class="w-20 h-20 bg-white/10 border border-white/20 rounded-[2rem] flex items-center justify-center group-active:scale-90 transition-transform">
+                        <i data-lucide="file-text" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <span class="text-[10px] text-white font-black uppercase tracking-wider text-center leading-tight">Laporan</span>
+                </button>
+            </div>
+            
+            <div class="mt-20 text-center">
+                <p class="text-emerald-500/50 text-[10px] font-medium tracking-widest uppercase">Versi 1.1.0 - 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail Postingan -->
+    <div id="detail-modal" class="fixed inset-0 z-[100] invisible opacity-0 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm transition-all duration-300">
+        <div class="bg-white w-full max-w-lg h-[90vh] sm:h-auto sm:max-h-[85vh] rounded-t-[2.5rem] sm:rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl relative">
+            <button onclick="closeModal('detail-modal')" class="absolute top-4 right-4 z-50 bg-black/20 backdrop-blur-md text-white p-2 rounded-full hover:bg-black/40 transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div class="overflow-y-auto no-scrollbar pb-10">
+                <img id="modal-img" src="" class="w-full aspect-video object-cover">
+                <div class="p-8">
+                    <div id="modal-cat" class="text-[10px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 w-max px-3 py-1 rounded-full mb-4"></div>
+                    <h2 id="modal-title" class="text-2xl font-black text-slate-800 leading-tight mb-4"></h2>
+                    <div class="flex items-center justify-between mb-6">
+    <div id="modal-date" class="text-xs text-slate-400 font-bold flex items-center gap-2">
+        <i data-lucide="calendar" class="w-3.5 h-3.5"></i> 
+        <span></span>
+    </div>
+
+    <button onclick="sharePost()" class="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider active:scale-95 transition-all border border-emerald-100/50">
+        <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+        Bagikan
+    </button>
+</div>
+
+                    <div id="modal-content" class="text-slate-600 leading-relaxed space-y-4 text-sm whitespace-pre-wrap"></div>
+              <!-- === AKSI POSTINGAN (NO. 1) === -->
+<div class="mt-8">
+
+    <!-- Tombol utama -->
+    <button id="modal-main-action"
+        onclick="togglePostActions()"
+        class="hidden w-full bg-emerald-600 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg active:scale-95 transition-all">
+        Hubungi / Selengkapnya
+    </button>
+
+    <!-- Tombol lanjutan -->
+    <div id="modal-sub-actions" class="hidden space-y-3 mt-4"></div>
+
+</div>
+
+  </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Jadwal Sholat Setahun -->
+  <div id="prayer-calendar-modal" class="fixed inset-0 z-[100] invisible opacity-0 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm transition-all duration-300">
+    <div class="bg-white w-full max-w-2xl h-[95vh] rounded-t-[2.5rem] sm:rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl relative">
+        
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-emerald-900 text-white flex-shrink-0">
+            <div>
+                <h2 class="text-xl font-black">Jadwal Sholat 2026</h2>
+                <p class="text-[10px] opacity-70 uppercase font-bold tracking-widest">Masehi & Hijriyah</p>
+            </div>
+            <button onclick="closeModal('prayer-calendar-modal')" class="bg-white/10 p-2 rounded-full">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div class="overflow-y-auto p-6 no-scrollbar space-y-8 bg-slate-50 flex-1">
+            
+            <div class="sticky top-0 z-10 bg-white/80 backdrop-blur-md p-3 rounded-2xl shadow-sm border border-slate-100 mb-4">
+                <select id="month-selector" onchange="renderCalendarTable()" class="w-full bg-transparent font-bold text-slate-700 focus:outline-none">
+                    <option value="1">Januari</option>
+                    <option value="2">Februari</option>
+                    <option value="3">Maret</option>
+                    <option value="4">April</option>
+                    <option value="5">Mei</option>
+                    <option value="6">Juni</option>
+                    <option value="7">Juli</option>
+                    <option value="8">Agustus</option>
+                    <option value="9">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                </select>
+            </div>
+
+            <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200 overflow-x-auto">
+                <table class="w-full text-[11px] text-left min-w-[500px]">
+                    <thead class="bg-emerald-50 text-emerald-800 font-black uppercase tracking-tighter">
+                        <tr>
+                            <th class="p-3 border-b border-emerald-100">Tgl (M/H)</th>
+                            <th class="p-3 border-b border-emerald-100">Subuh</th>
+                            <th class="p-3 border-b border-emerald-100">Dzuhur</th>
+                            <th class="p-3 border-b border-emerald-100">Ashar</th>
+                            <th class="p-3 border-b border-emerald-100">Maghrib</th>
+                            <th class="p-3 border-b border-emerald-100">Isya</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-body" class="text-slate-600 font-medium">
+                        </tbody>
+                </table>
+            </div>
+<div class="mt-8 bg-slate-100 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-700">
+    <div class="flex items-center gap-3 mb-3">
+        <div class="bg-emerald-600 p-1.5 rounded-lg text-white">
+            <i data-lucide="database" class="w-4 h-4"></i>
+        </div>
+        <h4 class="text-[11px] font-black uppercase tracking-[0.1em] text-slate-800 dark:text-slate-200">Sumber Data Resmi</h4>
+    </div>
+    
+   <p class="text-[11px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5">
+    Jadwal sholat dikelola dan diperbarui melalui sumber data resmi yang ditetapkan oleh <span class="font-black text-emerald-700 dark:text-emerald-400 underline decoration-emerald-500">PENGURUS MUSHOLA BAITUL MUTTAQIN</span> Sumber dan metode perhitungan dapat disesuaikan sesuai kebutuhan dan rujukan yang digunakan..
+    <br><br>
+    <span class="font-bold">Catatan:</span> Jadwal ini belum termasuk Ihtiyat. Untuk pelaksanaan ibadah, silakan tambahkan 3 menit dari waktu yang tertera untuk memastikan masuknya waktu sholat secara sempurna.
+</p>
+    <a href="https://bimasislam.kemenag.go.id/jadwalshalat" target="_blank" 
+       class="flex items-center justify-center gap-2 w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest text-emerald-700 dark:text-emerald-400 shadow-sm active:scale-95 transition-all">
+        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        Verifikasi di Situs Kemenag
+    </a>
+</div>
+
+
+        </div>
+    </div>
+</div>
+
+
+    <!-- Navigasi Bawah -->
+    <nav class="bg-white/90 backdrop-blur-md border-t border-slate-200 fixed bottom-0 w-full py-4 px-6 flex justify-between items-center z-[50] transition-colors">
+        <button onclick="switchTab('beranda')" id="nav-beranda" class="flex flex-col items-center gap-1 text-emerald-700 transition-all">
+            <i data-lucide="layout-grid" class="w-6 h-6"></i>
+            <span class="text-[9px] font-bold uppercase tracking-tighter">Beranda</span>
+        </button>
+        <button onclick="switchTab('agenda')" id="nav-agenda" class="flex flex-col items-center gap-1 text-slate-400 transition-all">
+            <i data-lucide="calendar-days" class="w-6 h-6"></i>
+            <span class="text-[9px] font-bold uppercase tracking-tighter">Agenda</span>
+        </button>
+<button onclick="switchTab('donasi')" id="nav-donasi" class="flex flex-col items-center gap-1 text-slate-400 transition-all">
+    <i data-lucide="send" class="w-6 h-6"></i> 
+    <span class="text-[9px] font-bold uppercase tracking-tighter">Transfer</span>
+</button>
+
+
+        <!-- Tombol Menu Gaya Burger/Tools -->
+        <button onclick="toggleServiceMenu()" id="nav-menu" class="flex flex-col items-center gap-1 text-slate-400 transition-all">
+            <div class="relative">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+                <span class="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full border-2 border-white"></span>
+            </div>
+            <span class="text-[9px] font-bold uppercase tracking-tighter">Layanan</span>
+        </button>
+    </nav>
+
+
+    <script>
+let CACHE_BERANDA = null;
+let CACHE_AGENDA = null;
+let CACHE_PROFIL = null;
+let CACHE_KEUANGAN = null; // Jika ada data keuangan
+
+
+const DONASI_SHEET_ID = "1G9y-BUGaTPpfug5wwExLD4h3Lakm76GfOAh2Pk5vk24";
+const AMAL_USAHA_SHEET_ID = "10lRdYIADk0G645DfUnwWwTNoUnYdP7KanAtpz5AGkC4";
+
+
+        // DATA TETAP
+        // --- TAMBAHAN UNTUK PENYIMPANAN (LOCAL STORAGE) ---
+        const CACHE_KEY_DAILY = "prayer_daily_cache";
+        const CACHE_DURATION = 24 * 60 * 60 * 1000; // Durasi 24 jam
+
+        // Fungsi untuk cek apakah data masih baru (kurang dari 24 jam)
+        function isCacheValid(cacheData) {
+            if (!cacheData) return false;
+            const now = new Date().getTime();
+            return (now - cacheData.timestamp) < CACHE_DURATION;
+        }
+        // --------------------------------------------------
+
+        const DUMMY_DATA = [
+            { id: 1, kategori: "Ringkasan Khutbah", judul: "Menjaga Lisan di Era Digital", isi: "Lisan adalah cerminan hati. Di era media sosial, lisan kita berubah bentuk menjadi tulisan dan komentar. \n\nRasulullah SAW bersabda: 'Barangsiapa yang beriman kepada Allah dan hari akhir, hendaklah ia berkata baik atau diam.'", foto: "https://images.unsplash.com/photo-1590076215667-873d96c8ab13?auto=format&fit=crop&q=80&w=500", tanggal: "17 Jan 2026" },
+            { id: 2, kategori: "Ringkasan Khutbah", judul: "Keutamaan Shalat Berjamaah", isi: "Shalat berjamaah memiliki derajat 27 kali lipat lebih tinggi dibanding shalat sendirian.", foto: "https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&q=80&w=500", tanggal: "10 Jan 2026" },
+            { id: 3, kategori: "Warta Musholah", judul: "Kerja Bakti Minggu Pagi", isi: "Diberitahukan kepada seluruh bapak-bapak untuk hadir dalam kerja bakti akbar.", foto: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80&w=500", tanggal: "21 Jan 2026" },
+            { id: 4, kategori: "Warta Musholah", judul: "Santunan Anak Yatim", isi: "Alhamdulillah, Musholah Baitul Muttaqin telah menyalurkan santunan rutin bulan Januari.", foto: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=500", tanggal: "15 Jan 2026" },
+            { id: 5, kategori: "Info UMKM Warga", judul: "Warung Berkah Bu Siti", isi: "Sedia menu sarapan pagi: Nasi Uduk & Lontong Sayur.", foto: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=500", tanggal: "Tersedia" },
+            { id: 6, kategori: "Info UMKM Warga", judul: "Aqiqah & Qurban Pak Haji", isi: "Menyediakan kambing dan sapi untuk keperluan aqiqah atau qurban.", foto: "https://images.unsplash.com/photo-1514331542861-f343949f6946?auto=format&fit=crop&q=80&w=500", tanggal: "Tersedia" }
+        ];
+function toggleMars() {
+    const audio = document.getElementById('mars-audio');
+    const icon = document.getElementById('mars-icon');
+
+    if (audio.paused) {
+        audio.play();
+        icon.setAttribute('data-lucide', 'pause'); // Mengubah ikon menjadi pause
+        icon.classList.add('text-emerald-500', 'animate-pulse');
+    } else {
+        audio.pause();
+        icon.setAttribute('data-lucide', 'music'); // Kembali ke ikon musik
+        icon.classList.remove('text-emerald-500', 'animate-pulse');
+    }
+    
+    // Me-refresh ikon Lucide jika Anda menggunakannya
+    lucide.createIcons();
+}
+
+        
+        // 1. Data Saldo (Bendahara cukup update angka di sini saja)
+
+// Penampung data saldo agar tetap bisa diakses oleh Modal Rincian
+const DATA_SALDO = {
+    infak: 0,
+    sedekah: 0,
+    zakat: 0
+};
+
+// Fungsi mengambil data saldo secara real-time dari Google Sheets
+async function updateDashboardSaldo() {
+    const saldoEl = document.getElementById('saldo-kas-display');
+    if (!saldoEl) return;
+
+    try {
+        const res = await fetch(`https://opensheet.elk.sh/${DONASI_SHEET_ID}/Sheet1`);
+        const data = await res.json();
+
+        if (data && data.length > 0) {
+            // Ambil angka mentah dari GSheet dan pastikan hanya angka yang diproses
+            const infak = parseInt(String(data[0]["Infak"]).replace(/[^-0-9]/g, '')) || 0;
+            const sedekah = parseInt(String(data[0]["Sedekah"]).replace(/[^-0-9]/g, '')) || 0;
+            const zakat = parseInt(String(data[0]["Zakat"]).replace(/[^-0-9]/g, '')) || 0;
+
+            // Simpan ke variabel global untuk Modal Rincian
+            DATA_SALDO.infak = infak;
+            DATA_SALDO.sedekah = sedekah;
+            DATA_SALDO.zakat = zakat;
+
+            const total = infak + sedekah + zakat;
+
+            // TAMPILKAN ANGKA RIIL (Contoh: Rp 2.990.000)
+            // .toLocaleString('id-ID') akan otomatis memberi titik sebagai pemisah ribuan
+            saldoEl.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            
+            // Opsional: Jika angka terlalu panjang dan memotong desain, 
+            // kita kecilkan sedikit ukuran font-nya secara otomatis
+            if (total >= 10000000) { // Jika sudah di atas 10 juta
+                saldoEl.classList.replace('text-sm', 'text-[11px]');
+            } else {
+                saldoEl.classList.replace('text-[11px]', 'text-sm');
+            }
+        }
+    } catch (e) {
+        console.error("Gagal sinkronisasi saldo kas:", e);
+        saldoEl.innerText = "Error Data";
+    }
+}
+
+
+
+// 2. Fungsi untuk membuka modal rincian
+function openRincianKas() {
+    const modal = document.getElementById('rincian-kas-modal');
+    const container = document.getElementById('list-rincian-saldo');
+    const totalDisplay = document.getElementById('total-saldo-akhir');
+
+    // Render list rincian berdasarkan data GSheet yang sudah ditarik
+    const items = [
+        { label: "Infak Masjid", nilai: DATA_SALDO.infak, icon: "heart", color: "text-pink-500" },
+        { label: "Sedekah", nilai: DATA_SALDO.sedekah, icon: "smile", color: "text-orange-500" },
+        { label: "Zakat", nilai: DATA_SALDO.zakat, icon: "hand-coins", color: "text-emerald-500" }
+    ];
+
+    // Ganti baris di dalam container.innerHTML menjadi seperti ini:
+container.innerHTML = items.map(item => `
+    <div class="flex justify-between items-center bg-slate-800 p-4 rounded-2xl border border-slate-700">
+        <div class="flex items-center gap-3">
+            <i data-lucide="${item.icon}" class="w-4 h-4 ${item.color}"></i>
+            <span class="text-xs font-bold text-slate-300">${item.label}</span>
+        </div>
+        <span class="text-sm font-black text-white">Rp ${item.nilai.toLocaleString('id-ID')}</span>
+    </div>
+`).join('');
+
+
+    const total = DATA_SALDO.infak + DATA_SALDO.sedekah + DATA_SALDO.zakat;
+    totalDisplay.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+    
+    modal.classList.remove('invisible', 'opacity-0');
+    document.body.style.overflow = 'hidden';
+    lucide.createIcons();
+}
+
+    
+
+
+// 3. Tambahkan ini di dalam window.onload agar angka di dashboard depan sesuai otomatis
+
+
+        let activeTab = 'beranda';
+        let isDark = false;
+        const LATITUDE = -7.0371; 
+        const LONGITUDE = 109.2152;
+        const YEAR = 2026;
+
+                function toggleDarkMode() {
+            isDark = !isDark;
+            document.body.classList.toggle('dark-mode', isDark);
+            
+            // Simpan pilihan user ke memori HP/Browser
+            localStorage.setItem('theme-preference', isDark ? 'dark' : 'light');
+            
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                lucide.createIcons();
+            }
+        }
+
+        // Toggle Overlay Menu
+        function toggleServiceMenu() {
+            const menu = document.getElementById('service-menu');
+            const isVisible = !menu.classList.contains('invisible');
+            if (isVisible) {
+                menu.classList.add('invisible', 'opacity-0');
+                document.body.style.overflow = 'auto';
+            } else {
+                menu.classList.remove('invisible', 'opacity-0');
+                document.body.style.overflow = 'hidden';
+            }
+            lucide.createIcons();
+        }
+
+        // Handle Klik Menu dari Overlay
+        function handleMenuClick(tab) {
+            toggleServiceMenu(); // Tutup overlay
+            switchTab(tab);      // Pindah tab
+        }
+// 1. Definisikan fungsi tampilan dulu (Gunakan 'function' huruf kecil)
+// ===== JADWAL SHOLAT DARI GOOGLE SHEETS =====
+const JADWAL_SHEET_ID = "1hPdG33zPWWTDe1Mfk_w03kVkolnyhwpkdoqow_Lz24E";
+const JADWAL_TAB = "Jadwal";
+const IHTIYAT_MENIT = 0;
+const JADWAL_CACHE_KEY = 'jadwal_setahun_v2';
+const JADWAL_CACHE_MS = 10 * 60 * 1000;
+function escHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c =>
+        ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Tanggal hari ini dalam zona WIB, format YYYY-MM-DD
+function hariIniWIB() {
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta' }).format(new Date());
+}
+
+// Terima "2026-09-19" atau "19/09/2026", hasilkan "2026-09-19"
+function normalisasiTanggal(t) {
+    t = String(t || '').trim();
+    let m = t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+    m = t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+    return '';
+}
+
+function jamValid(j) { return /^([01]?\d|2[0-3])[:.][0-5]\d$/.test(String(j || '').trim()); }
+function rapikanJam(j) {
+    const [h, m] = String(j).trim().replace('.', ':').split(':');
+    return h.padStart(2, '0') + ':' + m;
+}
+function tambahMenit(jam, menit) {
+    const [h, m] = jam.split(':').map(Number);
+    const total = (h * 60 + m + menit) % 1440;
+    return String(Math.floor(total / 60)).padStart(2, '0') + ':' + String(total % 60).padStart(2, '0');
+}
+
+async function ambilJadwalSetahun() {
+    // 1. Pakai cache kalau masih baru
+    try {
+        const raw = localStorage.getItem(JADWAL_CACHE_KEY);
+        if (raw) {
+            const c = JSON.parse(raw);
+            if (Array.isArray(c.data) && Date.now() - c.ts < JADWAL_CACHE_MS) return c.data;
+        }
+    } catch (e) {}
+
+    // 2. Ambil dari Google Sheets
+    try {
+        const res = await fetch(`https://opensheet.elk.sh/${JADWAL_SHEET_ID}/${JADWAL_TAB}`);
+        const rows = await res.json();
+        const data = rows.map(r => ({
+            tgl: normalisasiTanggal(r.Tanggal),
+            hijri: r.Hijriyah || '',
+            subuh: r.Subuh, dzuhur: r.Dzuhur, ashar: r.Ashar, maghrib: r.Maghrib, isya: r.Isya
+        }))
+        .filter(r => r.tgl && [r.subuh, r.dzuhur, r.ashar, r.maghrib, r.isya].every(jamValid))
+        .map(r => ({
+            ...r,
+            subuh: rapikanJam(r.subuh), dzuhur: rapikanJam(r.dzuhur), ashar: rapikanJam(r.ashar),
+            maghrib: rapikanJam(r.maghrib), isya: rapikanJam(r.isya)
+        }));
+        if (data.length) {
+            localStorage.setItem(JADWAL_CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+            return data;
+        }
+    } catch (e) { console.error("Gagal memuat jadwal:", e); }
+
+    // 3. Cadangan: cache lama walau sudah kedaluwarsa
+    try {
+        const raw = localStorage.getItem(JADWAL_CACHE_KEY);
+        if (raw) return JSON.parse(raw).data || [];
+    } catch (e) {}
+    return [];
+}
+function updateCurrentPrayer(prayerData) {
+    const waktuEl = document.getElementById('waktu-sholat');
+    const labelEl = document.getElementById('label-sholat');
+    
+    if (waktuEl && labelEl && prayerData) {
+        // Secara default menampilkan Subuh, atau bisa Anda ganti ke Maghrib untuk tes
+        waktuEl.innerText = prayerData.Fajr; 
+        labelEl.innerText = "Subuh";
+    }
+}
+
+// 2. Fungsi Logika Utama
+// Google Sheet Jadwal Sholat
+const JADWAL_SHOLAT_SHEET_ID = "1hPdG33zPWWTDe1Mfk_w03kVkolnyhwpkdoqow_Lz24E";
+const JADWAL_SHOLAT_SHEET_NAME = "Jadwal";
+
+
+// Fungsi untuk mengambil jadwal sholat hari ini dari Google Sheet
+async function updatePrayerTime() {
+
+    const CACHE_KEY_DAILY = 'prayer_daily_cache_gsheet';
+
+    try {
+
+        // Ambil seluruh data dari Google Sheet
+        const response = await fetch(
+            `https://opensheet.elk.sh/${JADWAL_SHOLAT_SHEET_ID}/${encodeURIComponent(JADWAL_SHOLAT_SHEET_NAME)}`
+        );
+
+        if (!response.ok) {
+            throw new Error(`Gagal mengambil Google Sheet: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+            throw new Error("Data jadwal sholat dari Google Sheet kosong.");
+        }
+
+
+        // Tanggal hari ini
+        const today = new Date();
+
+        const tahunHariIni = today.getFullYear();
+        const bulanHariIni = today.getMonth() + 1;
+        const tanggalHariIni = today.getDate();
+
+
+        // Cari kolom tanggal secara fleksibel
+        const cariKolom = (row, daftarNama) => {
+            const keys = Object.keys(row);
+
+            return keys.find(key => {
+                const keyNormal = key
+                    .toLowerCase()
+                    .trim()
+                    .replace(/\s+/g, '');
+
+                return daftarNama.some(nama =>
+                    keyNormal === nama.toLowerCase().replace(/\s+/g, '')
+                );
+            });
+        };
+
+
+        // Cari baris yang sesuai dengan tanggal hari ini
+        const rowHariIni = data.find(row => {
+
+            const kolomTanggal = cariKolom(row, [
+                "Tanggal",
+                "Tgl",
+                "Date",
+                "Tanggal Masehi",
+                "TanggalMasehi"
+            ]);
+
+            if (!kolomTanggal) return false;
+
+            const nilaiTanggal = String(row[kolomTanggal]).trim();
+
+            // Format YYYY-MM-DD
+            let match = nilaiTanggal.match(
+                /^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/
+            );
+
+            if (match) {
+                return (
+                    Number(match[1]) === tahunHariIni &&
+                    Number(match[2]) === bulanHariIni &&
+                    Number(match[3]) === tanggalHariIni
+                );
+            }
+
+            // Format DD-MM-YYYY atau DD/MM/YYYY
+            match = nilaiTanggal.match(
+                /^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/
+            );
+
+            if (match) {
+                return (
+                    Number(match[3]) === tahunHariIni &&
+                    Number(match[2]) === bulanHariIni &&
+                    Number(match[1]) === tanggalHariIni
+                );
+            }
+
+            return false;
+        });
+
+
+        if (!rowHariIni) {
+            throw new Error(
+                `Jadwal sholat untuk ${tanggalHariIni}/${bulanHariIni}/${tahunHariIni} tidak ditemukan di Google Sheet.`
+            );
+        }
+
+
+        // Cari kolom waktu sholat
+        const kolomFajr = cariKolom(rowHariIni, [
+            "Fajr",
+            "Subuh"
+        ]);
+
+        const kolomDhuhr = cariKolom(rowHariIni, [
+            "Dhuhr",
+            "Dzuhur",
+            "Dhuhur",
+            "Zuhur"
+        ]);
+
+        const kolomAsr = cariKolom(rowHariIni, [
+            "Asr",
+            "Ashar"
+        ]);
+
+        const kolomMaghrib = cariKolom(rowHariIni, [
+            "Maghrib"
+        ]);
+
+        const kolomIsha = cariKolom(rowHariIni, [
+            "Isha",
+            "Isya"
+        ]);
+
+        const kolomImsak = cariKolom(rowHariIni, [
+            "Imsak"
+        ]);
+
+
+        // Data langsung dari Google Sheet
+        // TIDAK ditambah +2 menit
+        const prayerData = {
+            Fajr: kolomFajr ? String(rowHariIni[kolomFajr]).trim() : "--:--",
+            Dhuhr: kolomDhuhr ? String(rowHariIni[kolomDhuhr]).trim() : "--:--",
+            Asr: kolomAsr ? String(rowHariIni[kolomAsr]).trim() : "--:--",
+            Maghrib: kolomMaghrib ? String(rowHariIni[kolomMaghrib]).trim() : "--:--",
+            Isha: kolomIsha ? String(rowHariIni[kolomIsha]).trim() : "--:--",
+            Imsak: kolomImsak ? String(rowHariIni[kolomImsak]).trim() : "--:--"
+        };
+
+
+        // Simpan cache hasil Google Sheet
+        localStorage.setItem(
+            CACHE_KEY_DAILY,
+            JSON.stringify({
+                timestamp: new Date().getTime(),
+                date: `${tahunHariIni}-${bulanHariIni}-${tanggalHariIni}`,
+                data: prayerData
+            })
+        );
+
+
+        console.log("Jadwal sholat dari Google Sheet:", prayerData);
+
+
+        // Tampilkan ke halaman
+        updateCurrentPrayer(prayerData);
+
+
+    } catch (error) {
+
+        console.error(
+            "Gagal mengambil jadwal sholat dari Google Sheet:",
+            error
+        );
+
+
+        // Jangan kembali ke Aladhan.
+        // Jangan menggunakan jadwal hardcode.
+        updateCurrentPrayer({
+            Fajr: "--:--",
+            Dhuhr: "--:--",
+            Asr: "--:--",
+            Maghrib: "--:--",
+            Isha: "--:--",
+            Imsak: "--:--"
+        });
+    }
+}
+// 4. Jalankan Otomatis
+document.addEventListener('DOMContentLoaded', updatePrayerTime);
+
+function openDevModal() {
+    // 1. Tutup menu layanan (overlay) terlebih dahulu
+    toggleServiceMenu(); 
+    
+    // 2. Tampilkan modal developer
+    const modal = document.getElementById('dev-modal');
+    modal.classList.remove('invisible', 'opacity-0');
+    
+    // 3. Kunci scroll latar belakang
+    document.body.style.overflow = 'hidden';
+    
+    // 4. Refresh ikon Lucide agar muncul
+    lucide.createIcons();
+}
+
+        function openPrayerCalendar() {
+            const modal = document.getElementById('prayer-calendar-modal');
+            modal.classList.remove('invisible', 'opacity-0');
+            document.body.style.overflow = 'hidden';
+            
+            const currentMonth = new Date().getMonth() + 1;
+            document.getElementById('month-selector').value = currentMonth;
+            
+            renderCalendarTable();
+            lucide.createIcons();
+        }
+const BERANDA_SHEET_ID = "19SptDdrmjtjeHPQWqPUJacb6LpnpiJ1ZC6nyQ1BQmOE";
+
+
+function refreshData() {
+localStorage.removeItem(JADWAL_CACHE_KEY);
+    // 1. Efek putar pada ikon saat diklik
+    const icon = document.getElementById('refresh-icon');
+    icon.classList.add('rotate-180');
+    
+    // 2. Panggil semua fungsi pengambil data
+    updateDashboardSaldo();
+    updatePrayerTime();
+    
+    // Jika sedang di tab beranda, refresh kontennya
+    if (activeTab === 'beranda') {
+        loadBerandaData();
+    } else if (activeTab === 'agenda') {
+        loadAgendaData();
+    } else if (activeTab === 'profil') {
+        loadSekretarisData();
+    }
+
+    // 3. Munculkan notifikasi kecil (Toast)
+    const toast = document.createElement('div');
+    toast.className = "fixed top-24 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-2 rounded-full text-[10px] font-black z-[200] shadow-xl animate-bounce border border-slate-700";
+    toast.innerHTML = `<span class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3 h-3 text-emerald-400"></i> DATA DIPERBARUI</span>`;
+    document.body.appendChild(toast);
+    
+    if(window.lucide) lucide.createIcons();
+
+    // 4. Hapus notifikasi setelah 2 detik
+    setTimeout(() => {
+        toast.classList.replace('animate-bounce', 'opacity-0');
+        setTimeout(() => toast.remove(), 500);
+        icon.classList.remove('rotate-180');
+    }, 2000);
+}
+
+
+async function loadAgendaData() {
+    const container = document.getElementById('main-view');
+    const SPREADSHEET_ID = "1Na1eViL0gbiArZC9HLN4512D6zQ159zOdskf2kw2V3w";
+    
+    // Tampilkan skeleton loading
+    container.innerHTML = `<div class="py-20 text-center animate-pulse text-slate-400">Memuat Agenda...</div>`;
+
+    try {
+        const res = await fetch(`https://opensheet.elk.sh/${SPREADSHEET_ID}/Agenda`);
+        const data = await res.json();
+
+        container.innerHTML = `
+            <div class="px-2 mb-6">
+                <h2 class="text-2xl font-black text-slate-900 dark:text-white">Agenda Musholah</h2>
+                <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Kegiatan Terdekat</p>
+            </div>
+            <div id="agenda-box" class="space-y-4 pb-24"></div>`;
+
+        const agendaBox = document.getElementById('agenda-box');
+
+        if (data && data.length > 0) {
+            agendaBox.innerHTML = data.map(a => `
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-sm flex items-center gap-4 transition-all">
+                    <div class="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 w-12 h-12 rounded-2xl flex flex-col items-center justify-center flex-shrink-0">
+                        <i data-lucide="calendar" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+            <h3 class="font-bold text-slate-800 dark:text-white text-sm truncate uppercase tracking-tight">${a.Judul || a.judul}</h3>               <p class="text-[10px] text-emerald-600 font-black uppercase">${a.Tanggal || a.tanggal}</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">${a.Keterangan || a.isi || ''}</p>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            agendaBox.innerHTML = `<p class="text-center py-10 text-slate-400 italic">Belum ada agenda.</p>`;
+        }
+    } catch (e) {
+        container.innerHTML = `<p class="text-center py-10 text-red-500">Gagal memuat data.</p>`;
+    }
+    if (window.lucide) lucide.createIcons();
+}
+
+
+
+
+        async function renderCalendarTable() {
+    const month = parseInt(
+        document.getElementById('month-selector').value
+    );
+
+    const body = document.getElementById('calendar-body');
+
+    body.innerHTML = `
+        <tr>
+            <td colspan="6" class="p-8 text-center animate-pulse">
+                Memuat jadwal...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        // Ambil data dari sumber yang sama dengan jadwal harian
+        const semuaJadwal = await ambilJadwalSetahun();
+
+        // Ambil hanya data tahun dan bulan yang dipilih
+        const jadwalBulanIni = semuaJadwal.filter(r => {
+
+            if (!r.tgl) return false;
+
+            const bagianTanggal = r.tgl.split('-');
+
+            if (bagianTanggal.length !== 3) return false;
+
+            const tahun = parseInt(bagianTanggal[0]);
+            const bulan = parseInt(bagianTanggal[1]);
+
+            return tahun === YEAR && bulan === month;
+        });
+
+
+        // Jika tidak ada data
+        if (!jadwalBulanIni.length) {
+
+            body.innerHTML = `
+                <tr>
+                    <td colspan="6"
+                        class="p-8 text-center text-red-500">
+                        Jadwal bulan ini belum tersedia.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        const hariIni = hariIniWIB();
+
+        const NAMA_BULAN = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'Mei',
+            'Jun',
+            'Jul',
+            'Agu',
+            'Sep',
+            'Okt',
+            'Nov',
+            'Des'
+        ];
+
+
+        body.innerHTML = '';
+
+
+        jadwalBulanIni.forEach(r => {
+
+            const bagianTanggal = r.tgl.split('-');
+
+            const tahun = parseInt(bagianTanggal[0]);
+            const bulan = parseInt(bagianTanggal[1]);
+            const tanggal = parseInt(bagianTanggal[2]);
+
+
+            const isToday = r.tgl === hariIni;
+
+
+            const row = document.createElement('tr');
+
+            row.className = `
+                border-b
+                border-slate-100
+                transition-colors
+                ${isToday ? 'bg-emerald-100/50 font-bold' : ''}
+            `;
+
+
+            row.innerHTML = `
+                <td class="p-3">
+                    <span class="block text-[10px] text-slate-800">
+                        ${tanggal} ${NAMA_BULAN[bulan - 1]}
+                    </span>
+
+                    <span class="block text-[8px] text-emerald-600 font-bold">
+                        ${escHtml(r.hijri || '')}
+                    </span>
+                </td>
+
+                <td class="p-3">
+                    ${r.subuh}
+                </td>
+
+                <td class="p-3">
+                    ${r.dzuhur}
+                </td>
+
+                <td class="p-3">
+                    ${r.ashar}
+                </td>
+
+                <td class="p-3 text-orange-600">
+                    ${r.maghrib}
+                </td>
+
+                <td class="p-3">
+                    ${r.isya}
+                </td>
+            `;
+
+
+            body.appendChild(row);
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            'Gagal menampilkan kalender jadwal sholat:',
+            error
+        );
+
+
+        body.innerHTML = `
+            <tr>
+                <td colspan="6"
+                    class="p-8 text-center text-red-500">
+                    Gagal memuat jadwal sholat.
+                </td>
+            </tr>
+        `;
+    }
+}
+        function switchTab(tab) {
+    activeTab = tab;
+    
+    // Reset warna semua nav-icon
+    document.querySelectorAll('nav button').forEach(btn => {
+        btn.classList.replace('text-emerald-700', 'text-slate-400');
+    });
+
+    // Highlight icon yang aktif (jika ada di nav bawah)
+    const activeNav = document.getElementById(`nav-${tab}`);
+    if (activeNav) activeNav.classList.replace('text-slate-400', 'text-emerald-700');
+
+    renderMainView();
+}
+
+
+      // 1. Fungsi Utama Render View
+function renderMainView() {
+    const container = document.getElementById('main-view');
+    container.innerHTML = '';
+
+
+if(activeTab === 'aset-diam') {
+    loadAsetDiamData(); // Panggil fungsi pengambil data
+} else if(activeTab === 'aset-produktif') {
+        container.innerHTML = `<div class="py-20 text-center text-slate-400">Halaman Aset Produktif (Sedang dikembangkan)</div>`;
+
+} else if(activeTab === 'aset') {
+    renderAset(container);
+  } else if(activeTab === 'beranda') {
+        loadBerandaData(); // Memanggil data dari GSheet
+    } else if(activeTab === 'agenda') {
+        renderAgenda(container); // Terkunci
+    } else if(activeTab === 'donasi') {
+        renderDonasi(container); // Terkunci
+    } else if(activeTab === 'zis') {
+        renderZis(container);
+   } else if(activeTab === 'amal') {
+    renderAmalUsaha(container);
+     } else if(activeTab === 'profil') {
+        renderProfil(container); // Terkunci
+    } else if(activeTab === 'donasi-khusus') {
+        renderDonasiKhusus(container);
+
+    }
+    lucide.createIcons();
+}
+
+// 2. Fungsi Load Data Beranda (GSheet ID: 19SptDdrmjtjeHPQWqPUJacb6LpnpiJ1ZC6nyQ1BQmOE)
+async function loadBerandaData() {
+    const container = document.getElementById('main-view');
+    container.innerHTML = `<div class="py-20 text-center animate-pulse text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinkronisasi Konten...</div>`;
+
+    try {
+        const res = await fetch(`https://opensheet.elk.sh/19SptDdrmjtjeHPQWqPUJacb6LpnpiJ1ZC6nyQ1BQmOE/Beranda`);
+        const data = await res.json();
+        
+        if(data && data.length > 0) {
+            container.innerHTML = ''; 
+            const categories = [...new Set(data.map(item => item.kategori))];
+
+            categories.forEach((cat, index) => {
+                const items = data.filter(i => i.kategori === cat);
+const catSlug = slugify(cat);
+
+                const section = document.createElement('section');
+                section.className = 'animate-fadeIn mb-10';
+                section.style.animationDelay = `${index * 0.1}s`;
+                
+                section.innerHTML = `
+     <div class="flex justify-between items-center mb-4 gap-3">
+    <h2 class="text-lg font-black text-slate-800 dark:text-white tracking-tight">
+        ${cat}
+    </h2>
+
+    <div class="flex items-center gap-2">
+<button onclick="toggleSearch('${catSlug}')"
+    class="bg-emerald-600 p-2 rounded-xl active:scale-95 transition-all shadow-sm">
+    <i data-lucide="search" class="w-4 h-4 text-white"></i>
+</button>
+    </div>
+</div>
+
+<!-- SEARCH INPUT -->
+<div id="search-${catSlug}" class="hidden mb-3">
+    <input
+        oninput="filterCategory('${catSlug}', this.value)"
+        placeholder="Cari di ${cat}..."
+        class="w-full px-4 py-3 rounded-2xl text-sm
+       text-white placeholder-slate-300
+       bg-slate-800
+       border border-slate-600
+       focus:outline-none focus:ring-2 focus:ring-emerald-500"
+
+    />
+</div>
+
+                    <div class="flex overflow-x-auto gap-4 no-scrollbar scroll-snap-x pb-2">
+                        ${items.map(item => {
+                            const dataString = encodeURIComponent(JSON.stringify(item));
+                            return `
+                            <div
+    onclick="openModalDetail('${dataString}')"
+    class="snap-item post-card flex-none w-[78vw] sm:w-80 aspect-[4/5] bg-white dark:bg-slate-800 rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 relative active:scale-[0.97] transition-all cursor-pointer"
+    data-category="${catSlug}"
+    data-title="${(item.judul || '').toLowerCase()}"
+    data-content="${(item.isi || '').toLowerCase()}"
+>
+   <img src="${item.foto}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1590076215667-873d96c8ab13?q=80&w=500'">
+                                <div class="image-overlay absolute inset-0 flex flex-col justify-end p-6 text-white">
+                                    <p class="text-[8px] font-black uppercase tracking-[0.2em] mb-2 text-emerald-400">${item.tanggal}</p>
+                                    <h3 class="text-lg font-bold leading-tight mb-2">${item.judul}</h3>
+                                    <p class="text-[10px] text-slate-300 line-clamp-2 font-medium">${item.isi}</p>
+                                </div>
+                            </div>`;
+                        }).join('')}
+                    </div>`;
+                container.appendChild(section);
+            });
+            lucide.createIcons();
+        }
+    } catch (e) {
+        container.innerHTML = `<p class="text-center text-red-500 text-[10px] font-bold">Gagal memuat konten beranda.</p>`;
+    }
+}
+
+// 3. Update Fungsi Open Modal agar mendukung Data GSheet
+function openModalDetail(input) {
+    let item;
+    try {
+        // Data dari GSheet
+        item = JSON.parse(decodeURIComponent(input));
+    } catch (e) {
+        // Fallback ke dummy
+        item = DUMMY_DATA.find(d => d.id == input);
+    }
+
+    if (!item) return;
+
+    // === ISI KONTEN MODAL ===
+    document.getElementById('modal-img').src = item.foto || '';
+    document.getElementById('modal-cat').innerText = item.kategori || '';
+    document.getElementById('modal-title').innerText = item.judul || '';
+    document.getElementById('modal-date').querySelector('span').innerText = item.tanggal || '';
+    document.getElementById('modal-content').innerText = item.isi || '';
+
+    // === LOGIC TOMBOL POSTINGAN (NO. 1) ===
+    const mainBtn = document.getElementById('modal-main-action');
+    const subActions = document.getElementById('modal-sub-actions');
+
+    // reset state setiap buka modal
+    subActions.innerHTML = '';
+    subActions.classList.add('hidden');
+    mainBtn.classList.add('hidden');
+
+    const hasWA = item.whatsapp && item.whatsapp.toString().trim() !== '';
+    const hasLink = item.link && item.link.toString().trim() !== '';
+
+    if (hasWA || hasLink) {
+        mainBtn.classList.remove('hidden');
+
+        // Tombol WhatsApp
+        if (hasWA) {
+            let wa = item.whatsapp.toString().replace(/\D/g, '');
+            if (wa.startsWith('0')) wa = '62' + wa.slice(1);
+
+            subActions.innerHTML += `
+                <a href="https://wa.me/${wa}" target="_blank"
+                   class="flex items-center justify-center gap-3 w-full bg-emerald-500 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg active:scale-95 transition-all">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    WhatsApp
+                </a>`;
+        }
+
+        // Tombol Link
+        if (hasLink) {
+            let url = item.link.toString().trim();
+            if (!url.startsWith('http')) url = 'https://' + url;
+
+            subActions.innerHTML += `
+                <a href="${url}" target="_blank"
+                   class="flex items-center justify-center gap-3 w-full bg-slate-800 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg active:scale-95 transition-all">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                    Buka Tautan
+                </a>`;
+        }
+    }
+
+    // === TAMPILKAN MODAL ===
+    const modal = document.getElementById('detail-modal');
+    modal.classList.remove('invisible', 'opacity-0');
+    document.body.style.overflow = 'hidden';
+
+    if (window.lucide) lucide.createIcons();
+}
+
+
+
+function togglePostActions() {
+    const subActions = document.getElementById('modal-sub-actions');
+    subActions.classList.toggle('hidden');
+    if (window.lucide) lucide.createIcons();
+}
+
+function toggleSearch(category) {
+    const el = document.getElementById(`search-${category}`);
+    if (!el) return;
+    el.classList.toggle('hidden');
+}
+
+function filterCategory(category, keyword) {
+    keyword = keyword.toLowerCase();
+
+    document
+        .querySelectorAll(`.post-card[data-category="${category}"]`)
+        .forEach(card => {
+            const title = card.dataset.title || '';
+            const content = card.dataset.content || '';
+            const match = title.includes(keyword) || content.includes(keyword);
+            card.style.display = match ? '' : 'none';
+        });
+}
+
+function slugify(text) {
+    return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')      // spasi → -
+        .replace(/[^\w\-]+/g, '')  // buang simbol
+        .replace(/\-\-+/g, '-');   // rapikan --
+}
+
+
+function renderAgenda(container) {
+    const section = document.createElement('section');
+    section.className = 'animate-fadeIn space-y-6 pb-20';
+    section.innerHTML = `
+        <div class="px-2">
+            <h2 class="text-2xl font-black !text-slate-900 dark:!text-white tracking-tight">Agenda Musholah</h2>
+            <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest mt-1">Rencana Kegiatan Terdekat</p>
+        </div>
+        
+        <div id="agenda-list-container" class="space-y-4">
+            <div class="flex flex-col items-center justify-center py-20 text-slate-400">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600 mb-4"></div>
+                <p class="text-[10px] font-bold uppercase tracking-widest">Menghubungkan ke Database...</p>
+            </div>
+        </div>
+    `;
+    container.appendChild(section);
+    
+    // Pastikan fungsi pengambil data dipanggil SETELAH elemen di atas muncul
+    setTimeout(() => {
+        loadAgendaData();
+    }, 100);
+}
+
+
+        // FUNGSI RENDER MENU BARU
+function renderZis(container) {
+    const section = document.createElement('section');
+    section.className = 'animate-fadeIn space-y-6';
+    section.innerHTML = `
+        <div class="bg-emerald-800 rounded-[3rem] p-8 text-white relative overflow-hidden shadow-lg">
+            <i data-lucide="hand-coins" class="absolute -right-4 -bottom-4 w-32 h-32 opacity-10"></i>
+            <h2 class="text-2xl font-black mb-2 italic">Layanan ZIS</h2>
+            <p class="text-emerald-200 text-xs">Zakat, Infaq, dan Sedekah terkelola secara amanah.</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div onclick="switchTab('donasi')" 
+                 class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer group">
+                <div class="bg-blue-100 text-blue-600 p-4 rounded-2xl group-active:bg-blue-600 group-active:text-white transition-colors">
+                    <i data-lucide="send" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 text-sm italic">Layanan Transfer</h3>
+                    <p class="text-[10px] text-slate-400">Lihat Rekening & Konfirmasi.</p>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+            </div>
+
+            <div onclick="openTunaiModal()" 
+                 class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer group">
+                <div class="bg-orange-100 text-orange-600 p-4 rounded-2xl group-active:bg-orange-600 group-active:text-white transition-colors">
+                    <i data-lucide="banknote" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 text-sm italic">Setor Tunai</h3>
+                    <p class="text-[10px] text-slate-400">Datang langsung ke lokasi musholah.</p>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+            </div>
+
+            <a href="https://wa.me/6285155366258?text=Assalamualaikum,%20mohon%20info%20layanan%20jemput%20zakat." 
+               class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4 active:scale-[0.98] transition-all group">
+                <div class="bg-emerald-100 text-emerald-600 p-4 rounded-2xl group-active:bg-emerald-700 group-active:text-white transition-colors">
+                    <i data-lucide="truck" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 text-sm italic">Jemput ZIS</h3>
+                    <p class="text-[10px] text-slate-400">Petugas kami datang ke rumah Anda.</p>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+            </a>
+        </div>
+    `;
+    container.appendChild(section);
+    lucide.createIcons();
+}
+
+// Fungsi pembantu untuk membuka modal tunai
+function openTunaiModal() {
+    const modal = document.getElementById('tunai-modal');
+    modal.classList.remove('invisible', 'opacity-0');
+    document.body.style.overflow = 'hidden';
+    lucide.createIcons();
+}
+
+
+        
+
+// --- KEMBALIKAN TAMPILAN MENU TRANSFER (TAB DONASI) ---
+// --- BAGIAN MENU TRANSFER ---
+function renderDonasi(container) {
+    const section = document.createElement('section');
+    section.className = 'animate-fadeIn space-y-8 py-4 text-center';
+    section.innerHTML = `
+        <div class="flex flex-col items-center">
+            <div class="bg-blue-100 dark:bg-blue-900/30 p-4 rounded-full text-blue-700 dark:text-blue-400 mb-4">
+                <i data-lucide="send" class="w-10 h-10"></i>
+            </div>
+            <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight transition-colors">Transfer & Konfirmasi</h2>
+            <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1 max-w-[250px]">Info rekening resmi & lapor bukti transfer</p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="bg-slate-900 text-white p-6 rounded-[2rem] flex justify-between items-center shadow-lg border border-slate-800">
+                <div class="text-left">
+                    <p class="text-[9px] font-bold uppercase text-slate-400 tracking-widest">Rekening Resmi (BRI)</p>
+                    <p class="text-lg font-black tracking-wider text-emerald-400">6080-01-055572-53-3</p>
+                    <p class="text-[10px] font-medium opacity-70">A.N Mushola Baitul Muttaqin</p>
+                </div>
+                <button onclick="navigator.clipboard.writeText('608001055572533'); alert('No. Rekening disalin!')" 
+                        class="bg-white/10 p-3 rounded-2xl active:scale-90 transition-transform">
+                    <i data-lucide="copy" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-sm transition-colors">
+                <div class="flex flex-col items-center gap-4">
+                    <div class="w-48 h-48 bg-white rounded-2xl overflow-hidden border-2 border-emerald-500 p-2 shadow-inner">
+                        <img src="qris.png" alt="QRIS Mushola" class="w-full h-full object-contain">
+                    </div>
+                    <div class="text-center">
+                        <p class="text-[10px] font-black text-slate-800 dark:text-white uppercase tracking-[0.2em]">Scan QRIS Resmi</p>
+                        <p class="text-[8px] text-emerald-600 font-bold uppercase mt-1">Support Semua Dompet Digital (GOPAY, OVO, DLL)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-4 pb-10">
+            <p class="text-[10px] text-slate-400 mb-5 font-medium italic">Sudah transfer? Silakan konfirmasi untuk validasi laporan.</p>
+ 
+            <button onclick="openKonfirmasiPilihan()" 
+                    class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-[2rem] shadow-xl shadow-blue-200 dark:shadow-none active:scale-95 transition-all flex items-center justify-center gap-3 uppercase text-xs tracking-widest">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                Konfirmasi Pembayaran
+            </button>
+        </div>
+    `;
+    container.appendChild(section);
+    lucide.createIcons();
+}
+
+
+// FUNGSI RENDER PROFIL (Tambahkan ini agar web tidak blank)
+function renderProfil(container) {
+    const section = document.createElement('section');
+    section.className = 'animate-fadeIn space-y-8 pb-24';
+    
+    section.innerHTML = `
+        <div class="bg-emerald-800 rounded-[3rem] p-8 text-white relative overflow-hidden shadow-lg mb-2">
+            <i data-lucide="building-2" class="absolute -right-4 -bottom-4 w-32 h-32 opacity-10"></i>
+            <h2 class="text-2xl font-black mb-1 italic">Profil Mushola</h2>
+            <p class="text-emerald-200 text-[10px] font-bold uppercase tracking-widest">Sejarah & Kepengurusan</p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex items-center gap-3 ml-2">
+                <div class="w-1.5 h-4 bg-emerald-500 rounded-full"></div>
+                <h3 class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Sejarah Singkat</h3>
+            </div>
+            <div id="profil-description-container" class="bg-white dark:bg-slate-800 p-7 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-400 leading-relaxed shadow-sm">
+                <div class="flex flex-col items-center py-4 text-slate-300">
+                    <div class="animate-pulse bg-slate-100 dark:bg-slate-700 h-4 w-full rounded mb-2"></div>
+                    <div class="animate-pulse bg-slate-100 dark:bg-slate-700 h-4 w-3/4 rounded"></div>
+                    <p class="text-[9px] mt-4 font-bold uppercase tracking-widest">Sinkronisasi Data...</p>
+                </div>
+            </div>
+        </div>
+
+
+    <div class="bg-white dark:bg-slate-800 p-5 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm mx-2 mb-6">
+        <div class="flex items-start gap-4">
+            <div class="bg-red-50 dark:bg-red-900/20 p-3 rounded-2xl text-red-500">
+                <i data-lucide="map-pin" class="w-6 h-6"></i>
+            </div>
+            <div class="flex-1">
+                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1 text-left">Lokasi Mushola</p>
+              
+<p class="text-sm font-bold text-slate-800 dark:text-white leading-tight">Dk. Temu, RT 013 RW 005, Ds. Tamansari, Kec jatinegara, Kab. Tegal, Jawa Tengah.</p>
+                <div class="flex gap-2 mt-3">
+                    <button onclick="copyAlamat()" class="text-[9px] font-black uppercase text-emerald-700 bg-emerald-50 dark:bg-emerald-800/30 px-4 py-2 rounded-xl active:scale-95 transition-all font-black">
+                        Salin Alamat
+                    </button>
+                   <a href="https://www.google.com/maps?q=-7.027778,109.267778" 
+   target="_blank" 
+   rel="noopener noreferrer"
+   class="text-[9px] font-black uppercase text-blue-700 bg-blue-50 dark:bg-blue-800/30 px-4 py-2 rounded-xl active:scale-95 transition-all no-underline">
+    Buka Navigasi ›
+</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+        <div class="space-y-4">
+            <div class="flex items-center gap-3 ml-2">
+                <div class="w-1.5 h-4 bg-emerald-500 rounded-full"></div>
+                <h3 class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Struktur Takmir</h3>
+            </div>
+            <div id="takmir-list-container" class="grid grid-cols-1 gap-3">
+                </div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex items-center gap-3 ml-2">
+                <div class="w-1.5 h-4 bg-emerald-500 rounded-full"></div>
+                <h3 class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Legalitas & Izin</h3>
+            </div>
+            <div id="legalitas-list-container" class="bg-slate-900 dark:bg-emerald-950 text-white p-8 rounded-[3rem] space-y-4 shadow-xl relative overflow-hidden">
+                <i data-lucide="file-check" class="absolute -right-6 -top-6 w-24 h-24 opacity-5"></i>
+                </div>
+        </div>
+    `;
+    
+    container.appendChild(section);
+    
+    // Jalankan pengambilan data dari Google Sheets
+    loadSekretarisData();
+    
+    // Refresh ikon
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
+function copyAlamat() {
+    const alamat = "Musala Baitul Muttaqin, Dk. Temu, RT 013 RW 005, Ds. Tamansari, Kec. Jatinegara, Kab. Tegal";
+    navigator.clipboard.writeText(alamat).then(() => {
+        alert("Alamat berhasil disalin ke papan klip!");
+    }).catch(err => {
+        console.error('Gagal menyalin: ', err);
+    });
+}
+
+
+
+async function renderDonasiKhusus(container) {
+    // 1. Tampilkan Loading State
+    container.innerHTML = `
+        <div class="py-20 text-center animate-pulse">
+            <div class="inline-block w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Memuat Program Donasi...</p>
+        </div>`;
+
+    try {
+        const res = await fetch(`https://opensheet.elk.sh/${DONASI_SHEET_ID}/Sheet1`); // Pastikan nama tab adalah Sheet1 atau sesuaikan
+        const data = await res.json();
+
+        if (data && data.length > 0) {
+            container.innerHTML = `
+                <div class="flex flex-col mb-6">
+                    <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Donasi Khusus</h2>
+                    <p class="text-xs text-emerald-600 font-bold uppercase tracking-widest">Program Pembangunan & Sarana</p>
+                </div>
+                <div id="donasi-list" class="space-y-6"></div>`;
+
+            const listContainer = document.getElementById('donasi-list');
+
+            data.forEach(item => {
+                // Parsing angka (menghilangkan Rp atau titik jika ada di GSheet)
+                const target = parseInt(item["Target"].replace(/[^0-9]/g, '')) || 0;
+                const terkumpul = parseInt(item["Terkumpul"].replace(/[^0-9]/g, '')) || 0;
+                const persentase = Math.min((terkumpul / target) * 100, 100).toFixed(0);
+                const isSelesai = item["Status"].toLowerCase() === 'selesai';
+
+                                const card = `
+                    <div class="bg-white dark:bg-slate-800 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm animate-fadeIn">
+                        <div class="relative h-44">
+                            <img src="${item["URL Gambar"]}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1590959651373-a3db0f38a961?q=80&w=500'">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${isSelesai ? 'bg-blue-600' : 'bg-emerald-600'} text-white">
+                                    ${item["Status"]}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+        <h3 class="text-lg font-black text-slate-800 dark:text-white leading-tight mb-4">
+    ${item["Nama Program"]}
+</h3>
+                            <div class="w-full bg-slate-100 dark:bg-slate-700 h-3 rounded-full overflow-hidden mb-3">
+                                <div class="bg-emerald-500 h-full rounded-full transition-all duration-1000" style="width: ${persentase}%"></div>
+                            </div>
+                            
+                            <div class="flex justify-between items-end mb-6">
+                                <div>
+                                    <p class="text-[9px] text-slate-400 font-bold uppercase">Terkumpul</p>
+                                    <p class="text-sm font-black text-emerald-600 dark:text-emerald-400">Rp ${terkumpul.toLocaleString('id-ID')}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[9px] text-slate-400 font-bold uppercase">Target</p>
+                                    <p class="text-xs font-bold text-slate-700 dark:text-slate-300">Rp ${target.toLocaleString('id-ID')}</p>
+                                </div>
+                            </div>
+
+                            ${!isSelesai ? `
+                                <button onclick="switchTab('donasi')" class="w-full bg-slate-900 dark:bg-emerald-700 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-all">
+                                    Ikut Berdonasi
+                                </button>
+                            ` : `
+                                <div class="w-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 py-4 rounded-2xl font-black text-xs text-center uppercase tracking-widest">
+                                    Alhamdulillah Terpenuhi
+                                </div>
+                            `}
+                        </div>
+                    </div>`;
+
+                listContainer.innerHTML += card;
+            });
+        }
+    } catch (e) {
+        container.innerHTML = `<div class="p-10 text-center text-red-500 text-xs font-bold uppercase">Gagal memuat data donasi.</div>`;
+    }
+    lucide.createIcons();
+}
+
+async function renderAmalUsaha(container) {
+    container.innerHTML = `
+        <div class="py-10 text-center animate-pulse">
+            <div class="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>`;
+
+    try {
+        const res = await fetch(`https://opensheet.elk.sh/${AMAL_USAHA_SHEET_ID}/Sheet1`);
+        const data = await res.json();
+
+        container.innerHTML = `
+            <div class="bg-blue-700 rounded-[2.5rem] p-8 text-white mb-8 shadow-lg">
+                <h2 class="text-2xl font-black mb-1 italic">Amal Usaha</h2>
+                <p class="text-blue-100 text-[10px] font-bold uppercase tracking-widest opacity-80">Kemandirian Ekonomi Umat</p>
+            </div>
+            <div id="amal-list" class="space-y-8 pb-28"></div>`;
+
+        const listContainer = document.getElementById('amal-list');
+
+        data.forEach((item, index) => {
+            const itemData = JSON.stringify(item).replace(/'/g, "&apos;");
+
+            listContainer.innerHTML += `
+                <div onclick='showAmalDetail(${itemData})' 
+                     class="bg-white rounded-[2.8rem] overflow-hidden border border-slate-50 shadow-sm active:scale-[0.97] transition-all cursor-pointer">
+                    
+                    <div class="h-48 w-full overflow-hidden relative">
+                        <img src="${item["URL Foto"]}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=500'">
+                        <div class="absolute top-5 left-5">
+                            <span class="text-[9px] font-black bg-white/90 backdrop-blur-md text-blue-600 px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+                                ${item["Label"] || 'Unit Usaha'}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-7">
+
+                        <h3 class="text-xl font-black text-slate-800 leading-tight">${item["Nama Unit"]}</h3>
+                      
+  <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed italic">
+                            ${item["Deskripsi"]}
+                        </p>
+                        <div class="mt-4 flex items-center text-[10px] font-bold text-blue-600 uppercase tracking-widest">
+                            Lihat Detail & Kontak 
+                            <i data-lucide="chevron-right" class="w-3 h-3 ml-1"></i>
+                        </div>
+                    </div>
+                </div>`;
+        });
+        
+        if(window.lucide) lucide.createIcons();
+    } catch (e) {
+        container.innerHTML = `<div class="p-10 text-center text-slate-400 text-xs font-bold uppercase tracking-widest">Gagal memuat data unit usaha</div>`;
+    }
+}
+
+
+
+
+async function loadSekretarisData() {
+    const SPREADSHEET_ID = "1Na1eViL0gbiArZC9HLN4512D6zQ159zOdskf2kw2V3w";
+    const BASE_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}`;
+    const container = document.getElementById('main-view');
+
+    // --- CEK CACHE: Jika data sudah ada, langsung render ---
+    if (CACHE_PROFIL) {
+        renderSekretarisContent(CACHE_PROFIL.profil, CACHE_PROFIL.takmir, CACHE_PROFIL.legalitas);
+        return;
+    }
+
+    // Tampilkan loading jika cache kosong
+    // (Opsional: pastikan element container profil sudah ada sebelum mengisi innerHTML)
+    
+    try {
+        // Ambil data dari 3 sheet secara bersamaan
+        const [profil, takmir, legalitas] = await Promise.all([
+            fetch(`${BASE_URL}/Profil_Musholah`).then(res => res.json()),
+            fetch(`${BASE_URL}/Struktur_Takmir`).then(res => res.json()),
+            fetch(`${BASE_URL}/Legalitas`).then(res => res.json())
+        ]);
+
+        // --- SIMPAN KE CACHE ---
+        CACHE_PROFIL = { profil, takmir, legalitas };
+
+        // Tampilkan data
+        renderSekretarisContent(profil, takmir, legalitas);
+
+    } catch (e) {
+        console.error("Gagal ambil data Sekretaris:", e);
+    }
+}
+
+// Pisahkan logika render ke fungsi tersendiri agar bisa dipanggil oleh Cache maupun Fetch
+function renderSekretarisContent(profil, takmir, legalitas) {
+    // 1. Render Sejarah/Deskripsi
+    const profBox = document.getElementById('profil-description-container');
+    if(profil && profil.length && profBox) {
+        const row = profil[0];
+        const keyKet = Object.keys(row).find(k => k.toLowerCase().includes('keterangan'));
+        profBox.innerHTML = `<p>${row[keyKet] || 'Data profil belum tersedia.'}</p>`;
+    }
+
+    // 2. Render Struktur Takmir
+    const takmirBox = document.getElementById('takmir-list-container');
+    if(takmirBox && takmir && takmir.length) {
+        takmirBox.innerHTML = takmir.map(t => {
+            const keys = Object.keys(t);
+            const keyNama = keys.find(k => k.toLowerCase().trim().includes('nama'));
+            const keyJabatan = keys.find(k => k.toLowerCase().trim().includes('jabatan'));
+            const keyIcon = keys.find(k => k.toLowerCase().trim().includes('icon'));
+
+            const nama = t[keyNama] || "Nama Tak Terbaca";
+            const jabatan = t[keyJabatan] || "Pengurus";
+            const icon = t[keyIcon] || "user";
+
+            return `
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-[2rem] border border-slate-100 dark:border-slate-700 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-2xl flex items-center justify-center text-emerald-600 shadow-inner">
+                        <i data-lucide="${icon}" class="w-6 h-6"></i>
+                    </div>
+                    <div class="flex flex-col">
+               <p class="text-sm font-black text-slate-800 dark:text-white leading-tight uppercase tracking-tight">${nama}</p>
+  <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider mt-0.5">${jabatan}</p>
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    // 3. Render Legalitas
+    const legBox = document.getElementById('legalitas-list-container');
+    if(legBox && legalitas && legalitas.length) {
+        legBox.innerHTML = legalitas.map(l => {
+            const keys = Object.keys(l);
+            const kDoc = keys.find(k => k.toLowerCase().includes('dokumen'));
+            const kNo = keys.find(k => k.toLowerCase().includes('nomor'));
+            return `
+                <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                    <span class="text-[11px] opacity-60 font-medium">${l[kDoc] || 'Dokumen'}</span>
+                    <span class="text-xs font-black tracking-wider">${l[kNo] || '-'}</span>
+                </div>`;
+        }).join('');
+    }
+
+    if (typeof lucide !== 'undefined') { lucide.createIcons(); }
+}
+
+       
+
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('invisible', 'opacity-0');
+            document.body.style.overflow = 'auto';
+        }
+
+                window.onload = () => {
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme === 'dark') {
+        toggleDarkMode();
+    }
+
+    renderMainView();
+    updatePrayerTime();
+    updateDashboardSaldo(); // Tambahkan ini agar saldo muncul saat start
+    setInterval(updatePrayerTime, 60000);
+    lucide.createIcons();
+};
+
+        function sharePost() {
+            // Mengambil data dari modal yang sedang terbuka
+            const title = document.getElementById('modal-title').innerText;
+            const text = document.getElementById('modal-content').innerText.substring(0, 100) + "...";
+            const url = window.location.href; // Ini mengambil link website kamu
+
+            // Cek apakah HP mendukung fitur Share bawaan
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: `${title}\n\n${text}\n\nSelengkapnya di Baitul Muttaqin Digital Hub:`,
+                    url: url
+                }).then(() => {
+                    console.log('Berhasil dibagikan');
+                }).catch((error) => {
+                    console.log('Gagal berbagi', error);
+                });
+            } else {
+                // Jika dibuka di laptop yang tidak mendukung share, otomatis salin link
+                navigator.clipboard.writeText(`${title} - ${url}`);
+                alert('Link artikel berhasil disalin!');
+            }
+        }
+
+
+async function showSponsorModal() {
+    const modal = document.getElementById('sponsorModal');
+    const grid = document.getElementById('sponsor-grid');
+    
+    modal.classList.remove('hidden');
+    
+    // Tampilan Loading
+    grid.innerHTML = `
+        <div class="col-span-3 flex flex-col items-center justify-center py-20">
+            <div class="w-10 h-10 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinkronisasi Data...</p>
+        </div>
+    `;
+
+    try {
+        // Mengambil data dari Sheet2
+        const SPREADSHEET_ID = '10lRdYIADk0G645DfUnwWwTNoUnYdP7KanAtpz5AGkC4';
+        const response = await fetch(`https://opensheet.elk.sh/${SPREADSHEET_ID}/Sheet2`);
+        const data = await response.json();
+
+        grid.innerHTML = ''; 
+
+        if (!data || data.length === 0) {
+            grid.innerHTML = `<p class="col-span-3 text-center text-slate-400 text-[10px] py-10 uppercase font-bold italic">Belum ada mitra sponsor</p>`;
+            return;
+        }
+
+        data.forEach(item => {
+            // DISINI PERUBAHANNYA: Menggunakan "Nama Sponsor" dan "URL Foto" sesuai header GSheet
+            const nama = item["Nama Sponsor"] || "No Name";
+            const logo = item["URL Foto"] || ""; 
+
+            const card = document.createElement('div');
+            card.className = 'flex flex-col items-center gap-2 group animate-fadeIn';
+            
+            card.innerHTML = `
+                <div class="w-full aspect-square bg-white rounded-2xl flex items-center justify-center shadow-md border border-slate-100 overflow-hidden group-active:scale-95 transition-all">
+                    ${logo ? 
+                        `<img src="${logo}" alt="${nama}" class="w-full h-full object-contain p-2" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(nama)}&background=f1f5f9&color=cbd5e1'">` : 
+                        `<div class="flex flex-col items-center text-slate-200"><i data-lucide="award" class="w-8 h-8"></i></div>`
+                    }
+                </div>
+                <span class="text-[9px] font-black text-slate-700 dark:text-slate-400 uppercase text-center leading-[1.1] tracking-tighter h-6 flex items-center justify-center px-1">
+                    ${nama}
+                </span>
+            `;
+            grid.appendChild(card);
+        });
+
+        if (window.lucide) lucide.createIcons();
+
+    } catch (error) {
+        grid.innerHTML = `<p class="col-span-3 text-center text-red-500 text-[10px] font-bold">ERR: GAGAL KONEKSI KE DATA SPONSOR</p>`;
+        console.error('Error:', error);
+    }
+}
+
+
+async function showDonaturModal() {
+    const modal = document.getElementById('donaturModal');
+    const container = document.getElementById('donatur-list-container');
+    
+    // 1. Munculkan Modal
+    modal.classList.remove('hidden');
+    
+    // 2. Loading State
+    container.innerHTML = `
+        <div class="py-10 text-center animate-pulse">
+            <div class="inline-block w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mb-2"></div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinkronisasi Donatur...</p>
+        </div>`;
+
+    try {
+        // 3. Ambil data dari Tab "Daftar Donatur"
+        // Menggunakan opensheet.elk.sh agar konsisten dengan fitur lainnya
+        const res = await fetch(`https://opensheet.elk.sh/${DONASI_SHEET_ID}/Daftar%20Donatur`);
+        const data = await res.json();
+
+        if (data && data.length > 0) {
+            container.innerHTML = `
+                <div class="space-y-3 pb-10">
+                    ${data.map(d => `
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                            <div>
+                                <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-black uppercase tracking-tighter">Nama Donatur</p>
+                                <p class="text-sm font-black text-slate-900 dark:text-white">${d["Nama Donatur"]}</p>
+
+                </div>
+                            <div class="text-right">
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">ID Donatur</p>
+                                <p class="text-xs font-mono font-bold text-slate-600 dark:text-slate-400">${d["No ID"]}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } else {
+            container.innerHTML = `<p class="text-center text-slate-400 text-xs py-10 italic">Belum ada data donatur terdaftar.</p>`;
+        }
+    } catch (e) {
+        console.error("Gagal memuat donatur:", e);
+        container.innerHTML = `<p class="text-center text-red-500 text-[10px] font-bold py-10 uppercase">Gagal memuat data. Pastikan Nama Tab benar.</p>`;
+    }
+    
+    if (window.lucide) lucide.createIcons();
+}
+
+
+// Fungsi tutup modal
+function closeDonaturModal() {
+    document.getElementById('donaturModal').classList.add('hidden');
+}
+
+
+async function loadAsetDiamData() {
+    const container = document.getElementById('main-view');
+    container.innerHTML = `
+        <div class="py-20 text-center">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-emerald-500 border-t-transparent"></div>
+            <p class="mt-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Memuat Data Inventaris...</p>
+        </div>
+    `;
+
+    try {
+        // Mengambil data dari tab "Inventaris"
+        const response = await fetch('https://opensheet.elk.sh/1nG1AnIjy-0U_UNAtGR34PjLQQIeOWWRzja9hxbB5BDA/Inventaris');
+        const data = await response.json();
+
+        renderAsetDiamList(container, data);
+    } catch (error) {
+        container.innerHTML = `
+            <div class="py-20 text-center px-6">
+                <i data-lucide="alert-circle" class="w-12 h-12 text-red-400 mx-auto mb-4"></i>
+                <p class="text-sm text-slate-600 font-bold">Gagal memuat data inventaris.</p>
+                <button onclick="loadAsetDiamData()" class="mt-4 text-xs text-emerald-600 font-black uppercase underline">Coba Lagi</button>
+            </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+    }
+}
+
+function renderAsetDiamList(container, data) {
+    let cardsHtml = '';
+
+    data.forEach(item => {
+        // Warna label kondisi
+        const isBaik = item.Kondisi?.toLowerCase() === 'baik';
+        const statusClass = isBaik 
+            ? 'bg-emerald-500 text-white' 
+            : 'bg-orange-500 text-white';
+
+        cardsHtml += `
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex justify-between items-start animate-fadeIn mb-3">
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                        <i data-lucide="package" class="w-5 h-5 text-blue-400"></i>
+                    </div>
+                    <div>
+                        <div class="bg-slate-800 px-2 py-0.5 rounded-md inline-block mb-1">
+                            <h4 class="font-black text-white text-[11px] uppercase leading-tight tracking-wide">
+                                ${item.Nama_Barang || 'Tanpa Nama'}
+                            </h4>
+                        </div>
+                        
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-bold uppercase">
+                            ${item.Lokasi || 'Lokasi -'} • ${item.Tahun || '-'}
+                        </p>
+                        <p class="text-[9px] text-slate-400 italic font-medium">Sumber: ${item.Sumber || '-'}</p>
+                    </div>
+                </div>
+                <span class="px-3 py-1 ${statusClass} text-[9px] font-black rounded-full uppercase shadow-sm">
+                    ${item.Kondisi || 'Cek'}
+                </span>
+            </div>
+        `;
+    });
+
+    // TAMPILAN HEADER DAFTAR (Bukan menu pilihan lagi)
+    container.innerHTML = `
+        <div class="px-2 mb-6 flex justify-between items-start animate-fadeIn">
+            <div>
+                <h2 class="text-2xl font-black text-slate-900 dark:text-white leading-tight">DAFTAR INVENTARIS</h2>
+                <p class="text-[10px] text-blue-600 font-bold uppercase tracking-widest italic">Data Aset Diam</p>
+            </div>
+            <button onclick="switchTab('aset')" class="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-500 active:scale-90 transition-all shadow-sm">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div class="pb-24">
+            ${cardsHtml || '<p class="text-center py-10 text-slate-400 font-bold uppercase text-xs">Data tidak ditemukan</p>'}
+        </div>
+    `;
+
+    if (window.lucide) lucide.createIcons();
+}
+
+
+// Fungsi untuk membuka modal pilihan kategori
+// FUNGSI KONFIRMASI YANG TERINTEGRASI OTOMATIS DENGAN GSHEET
+async function openKonfirmasiPilihan() {
+    const modal = document.getElementById('konfirmasi-pilihan-modal');
+    const listContainer = document.getElementById('list-donasi-khusus-pilihan');
+    
+    // Tampilkan Loading sebentar di dalam list
+    listContainer.innerHTML = `<p class="text-[9px] text-center animate-pulse text-slate-400 font-bold uppercase py-2">Sinkronisasi Program...</p>`;
+    
+    modal.classList.remove('invisible', 'opacity-0');
+    document.body.style.overflow = 'hidden';
+
+    try {
+        // Ambil data terbaru langsung dari Google Sheets Donasi Khusus
+        const res = await fetch(`https://opensheet.elk.sh/${DONASI_SHEET_ID}/Sheet1`);
+        const data = await res.json();
+
+        // Filter: Hanya ambil yang statusnya BUKAN "Selesai"
+        const programAktif = data.filter(d => d["Status"].toLowerCase() !== 'selesai');
+
+        if (programAktif.length > 0) {
+            listContainer.innerHTML = programAktif.map(d => `
+                <button onclick="pilihSubDonasi('khusus', '${d["Nama Program"]}')" 
+                        class="w-full bg-emerald-900 text-white p-4 rounded-2xl flex items-center gap-4 active:scale-95 transition-all shadow-lg shadow-emerald-900/20">
+                    <div class="bg-white/10 p-2 rounded-xl text-emerald-300">
+                        <i data-lucide="star" class="w-4 h-4"></i>
+                    </div>
+                    <span class="text-[11px] font-black uppercase tracking-tighter text-left leading-tight">${d["Nama Program"]}</span>
+                </button>
+            `).join('');
+        } else {
+            listContainer.innerHTML = `<p class="text-[10px] text-center text-slate-400 italic">Tidak ada program donasi khusus aktif.</p>`;
+        }
+    } catch (e) {
+        listContainer.innerHTML = `<p class="text-[10px] text-center text-red-400 font-bold">Gagal memuat daftar program.</p>`;
+    }
+
+    if (window.lucide) lucide.createIcons();
+}
+
+
+function closeSponsorModal() {
+    const modal = document.getElementById('sponsorModal');
+    modal.classList.add('hidden');
+}
+
+function renderAset(container) {
+    container.innerHTML = `
+        <div class="px-2 mb-8 flex justify-between items-start animate-fadeIn">
+            <div>
+                <h2 class="text-2xl font-black text-slate-900 dark:text-white leading-tight italic uppercase">Manajemen Aset</h2>
+                <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Pilih Kategori Inventaris</p>
+            </div>
+            <button onclick="switchTab('beranda')" class="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-500 active:scale-90 transition-all">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div class="px-2 grid gap-4 animate-fadeIn">
+            <button onclick="switchTab('aset-produktif')" class="bg-white dark:bg-slate-800 p-6 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm flex items-center gap-6 active:scale-95 transition-all text-left">
+                <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white flex-shrink-0 shadow-lg">
+                    <i data-lucide="trending-up" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <div class="bg-slate-900 px-2 py-0.5 rounded-md inline-block mb-1">
+                        <h3 class="font-black text-white text-xs uppercase tracking-tight italic">Aset Produktif</h3>
+                    </div>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight font-medium uppercase italic">Unit Usaha & Profit</p>
+                </div>
+            </button>
+
+            <button onclick="switchTab('aset-diam')" class="bg-white dark:bg-slate-800 p-6 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm flex items-center gap-6 active:scale-95 transition-all text-left">
+                <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white flex-shrink-0 shadow-lg">
+                    <i data-lucide="package" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <div class="bg-slate-900 px-2 py-0.5 rounded-md inline-block mb-1">
+                        <h3 class="font-black text-white text-xs uppercase tracking-tight italic">Aset Diam</h3>
+                    </div>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight font-medium uppercase italic">Inventaris & Peralatan</p>
+                </div>
+            </button>
+        </div>
+    `;
+    if (window.lucide) lucide.createIcons();
+}
+
+
+
+// Fungsi untuk mengarahkan ke WhatsApp sesuai pilihan
+function pilihSubDonasi(kategori, subJudul = "") {
+    const noWA = "6285747571630"; // Gunakan wa_number config Anda
+    let label = kategori.toUpperCase();
+    if(subJudul) label = `DONASI KHUSUS (${subJudul.toUpperCase()})`;
+    
+    let pesan = `Assalamualaikum Bendahara Mushola Baitul Muttaqin,\n\n` +
+                `Saya ingin mengonfirmasi transfer untuk:\n` +
+                `📌 *Kategori:* ${label}\n\n` +
+                `Saya telah menuliskan keterangan tersebut di berita transfer. Mohon dicek, jazakallah khair.`;
+
+    window.open(`https://wa.me/${noWA}?text=${encodeURIComponent(pesan)}`, '_blank');
+    closeModal('konfirmasi-pilihan-modal');
+}
+
+// --- LETAKKAN KODE INI DI BAWAH FUNGSI RENDERAMALUSAHA ---
+
+function showAmalDetail(item) {
+    const cleanWA = String(item["No. WA PJ"] || "").replace(/[^0-9]/g, '');
+    
+    // 1. Buat elemen kontainer modal
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 z-[1000] flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fadeIn';
+    
+    // 2. Isi konten modal
+    modal.innerHTML = `
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="this.parentElement.remove()"></div>
+        
+        <div class="relative bg-white dark:bg-slate-900 w-full max-w-lg rounded-t-[3rem] sm:rounded-[3rem] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col transform transition-all animate-slideUp">
+            
+            <button onclick="this.closest('.fixed').remove()" class="absolute top-4 right-4 z-10 bg-black/20 backdrop-blur-md text-white p-2 rounded-full active:scale-90 transition-all">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="h-64 w-full flex-shrink-0 relative">
+                <img src="${item["URL Foto"]}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=500'">
+                <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white dark:from-slate-900 to-transparent"></div>
+            </div>
+
+            <div class="px-8 pb-10 pt-2 overflow-y-auto custom-scroll">
+                <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.2em]">${item["Label"] || 'Unit Usaha'}</span>
+                <h2 class="text-3xl font-black text-slate-900 dark:text-white mt-1 leading-tight">${item["Nama Unit"]}</h2>
+                
+                <div class="mt-6 space-y-4">
+                    <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest">Tentang Unit Usaha</h4>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-justify">
+                        ${item["Deskripsi"] || 'Tidak ada deskripsi tambahan untuk unit usaha ini.'}
+                    </p>
+                </div>
+
+                <div class="mt-8 p-5 bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] border border-slate-100 dark:border-slate-700 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200 dark:shadow-none">
+                            <i data-lucide="user" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">Penanggung Jawab</p>
+                            <p class="text-sm font-black text-slate-800 dark:text-white">${item["Nama PJ"]}</p>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/${cleanWA}" target="_blank" class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center active:scale-90 transition-all">
+                        <i data-lucide="phone" class="w-5 h-5"></i>
+                    </a>
+                </div>
+
+                <a href="https://wa.me/${cleanWA}?text=Assalamu'alaikum, saya ingin bertanya tentang ${item["Nama Unit"]}" 
+                   target="_blank"
+                   class="flex items-center justify-center gap-3 w-full bg-slate-900 dark:bg-emerald-600 text-white py-5 rounded-[1.5rem] mt-6 font-bold text-xs uppercase tracking-[0.15em] shadow-xl active:scale-95 transition-all">
+                   <i data-lucide="message-circle" class="w-5 h-5"></i>
+                   Hubungi WhatsApp
+                </a>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    
+    // Inisialisasi ikon Lucide di dalam modal
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+}
+
+    </script>
+<div id="dev-modal" class="fixed inset-0 z-[150] invisible opacity-0 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md transition-all duration-300">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-2xl h-[85vh] sm:h-auto sm:max-h-[90vh] rounded-t-[3rem] sm:rounded-[3rem] overflow-hidden flex flex-col shadow-2xl relative">
+        
+        <div class="p-8 pb-6 flex justify-between items-start bg-slate-900 z-10">
+            <div class="flex flex-col">
+                <h2 class="text-2xl font-black text-white italic tracking-tight">Heri Susanto, S.H.</h2>
+                <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-[0.2em] mt-1">System Designer & Developer</p>
+            </div>
+            <button onclick="closeModal('dev-modal')" class="bg-white/10 p-2 rounded-full text-white/50 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div class="overflow-y-auto no-scrollbar p-8 pt-6 space-y-8 bg-white dark:bg-slate-900">
+            
+            <div class="bg-emerald-900 text-white p-6 rounded-[2rem] shadow-lg shadow-emerald-900/20">
+                <h3 class="text-[10px] font-black uppercase tracking-widest mb-3 opacity-70">Visi Digitalisasi</h3>
+                <p class="text-sm leading-relaxed italic font-medium">
+                    "Baitul Muttaqin Digital Hub dirancang dari awal sebagai ekosistem manajemen terpadu. Proyek ini bertujuan mentransformasi tata kelola tradisional menjadi sistem digital yang transparan, amanah, dan modern."
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-2">Arsitektur & Fungsi Sistem</h3>
+                
+                <div class="grid gap-4">
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+                        <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">01. Literasi & Edukasi</p>
+                        <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <span class="font-black">Ringkasan Kajian:</span> Menjaga kesinambungan pesan Agama agar dapat diakses kapan saja oleh seluruh jamaah melalui arsip digital yang rapi.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+                        <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">02. Transparansi Informasi</p>
+                        <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <span class="font-black">Warta Musholah:</span> Membangun akuntabilitas publik melalui pelaporan kegiatan dan penggunaan dana secara real-time kepada masyarakat.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+                        <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">03. Ekonomi Umat</p>
+                        <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <span class="font-black">Info UMKM Warga:</span> Memperkuat daya beli komunal dengan menyediakan panggung digital khusus untuk mempromosikan unit usaha milik jamaah.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+                        <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">04. Operasional Digital</p>
+                        <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <span class="font-black">Jadwal & Agenda:</span> Sinkronisasi waktu ibadah otomatis dari server Kemenag dan manajemen jadwal pengurus agar koordinasi lebih presisi.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+                        <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">05. Manajemen Filantropi</p>
+                        <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <span class="font-black">Layanan ZIS:</span> Digitalisasi pengumpulan zakat, infaq, dan sedekah melalui kanal transfer, scan QRIS, hingga layanan jemput donasi.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+                        <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">06. Kemandirian Finansial</p>
+                        <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <span class="font-black">Amal Usaha:</span> Wadah pengelolaan unit bisnis internal musholah untuk memastikan keberlanjutan ekonomi organisasi secara mandiri.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+                        <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">07. Identitas Institusi</p>
+                        <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <span class="font-black">Profil Musholah:</span> Pusat data legalitas, sejarah berdirinya musholah, dan struktur organisasi Takmir yang dapat diverifikasi siapa saja.
+                        </p>
+                    </div>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+    <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">08. Akuntabilitas Keuangan</p>
+    <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+        <span class="font-black">Saldo Kas Digital:</span> Sistem pelaporan keuangan terbuka yang menyajikan saldo infak, sedekah, dan zakat secara aktual, memungkinkan jamaah memantau amanah dana umat kapan saja.
+    </p>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800 mb-4">
+    <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">09. Manajemen Dukungan Umat</p>
+    <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+        <span class="font-black">Donatur & Sponsor:</span> Ruang apresiasi dan pencatatan bagi para dermawan (munfiq) serta mitra strategis yang telah memberikan kontribusi, memastikan setiap dukungan tercatat secara rapi sebagai bentuk sinergi dakwah.
+    </p>
+</div>
+
+<div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+    <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-tighter">10. Transparansi Aset & Inventaris</p>
+    <p class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed">
+        <span class="font-black">Inventaris Digital:</span> Pendataan seluruh aset fisik musholah secara mendetail untuk memastikan keberadaan, kondisi, dan asal-usul sarana prasarana dikelola secara amanah dan dapat dipantau oleh jamaah.
+    </p>
+</div>
+
+
+                </div>
+            </div>
+
+            <div class="pt-6 pb-10">
+                <a href="https://wa.me/62882005068451" 
+                   class="flex items-center justify-center gap-3 bg-emerald-700 text-white py-5 rounded-[2rem] font-black text-xs uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-emerald-700/20">
+                    <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
+                    WhatsApp Silaturahmi
+                </a>
+                <p class="text-center text-[9px] text-slate-400 mt-8 font-medium uppercase tracking-[0.2em]">Versi Sistem 1.1.0 • Baitul Muttaqin Digital Hub © 2026</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="konfirmasi-pilihan-modal" class="fixed inset-0 z-[200] invisible opacity-0 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70 backdrop-blur-md transition-all duration-500">
+    
+    <div onclick="closeModal('konfirmasi-pilihan-modal')" class="absolute inset-0"></div>
+
+    <div class="relative bg-white dark:bg-slate-900 w-full max-w-lg rounded-t-[3rem] sm:rounded-[3rem] overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.2)] flex flex-col max-h-[90vh]">
+        <div class="p-8 pb-4 flex justify-between items-start">
+    <div>
+        <h3 class="text-2xl font-black text-white italic tracking-tighter uppercase">Konfirmasi</h3>
+        <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-[0.2em] mt-1">Pilih jenis dana yang Anda transfer</p>
+    </div>
+
+
+            <button onclick="closeModal('konfirmasi-pilihan-modal')" class="bg-slate-100 dark:bg-slate-800 p-2 rounded-full text-slate-400">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div class="overflow-y-auto no-scrollbar p-8 pt-0 space-y-4">
+            
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="pilihSubDonasi('Infak Masjid')" class="flex flex-col items-center justify-center p-6 bg-slate-50 dark:bg-slate-800 rounded-[2rem] border border-slate-100 dark:border-slate-700 active:scale-95 transition-all">
+                    <div class="bg-white dark:bg-slate-700 p-3 rounded-2xl shadow-sm mb-3">
+                        <i data-lucide="heart" class="w-6 h-6 text-pink-500"></i>
+                    </div>
+                    <span class="text-[10px] font-black uppercase text-slate-600 dark:text-slate-300">Infak</span>
+                </button>
+
+                <button onclick="pilihSubDonasi('Sedekah')" class="flex flex-col items-center justify-center p-6 bg-slate-50 dark:bg-slate-800 rounded-[2rem] border border-slate-100 dark:border-slate-700 active:scale-95 transition-all">
+                    <div class="bg-white dark:bg-slate-700 p-3 rounded-2xl shadow-sm mb-3">
+                        <i data-lucide="smile" class="w-6 h-6 text-orange-500"></i>
+                    </div>
+                    <span class="text-[10px] font-black uppercase text-slate-600 dark:text-slate-300">Sedekah</span>
+                </button>
+            </div>
+
+            <button onclick="pilihSubDonasi('Zakat')" class="w-full flex items-center gap-4 p-5 bg-emerald-50 dark:bg-emerald-900/20 rounded-[2rem] border border-emerald-100 dark:border-emerald-800 active:scale-[0.98] transition-all">
+                <div class="bg-emerald-600 p-3 rounded-2xl text-white shadow-lg shadow-emerald-600/20">
+                    <i data-lucide="hand-coins" class="w-6 h-6"></i>
+                </div>
+                <div class="text-left">
+    <p class="text-sm font-black text-white uppercase italic leading-none">Zakat</p>    <p class="text-[10px] text-emerald-600 font-bold uppercase">Maal / Fitrah / Profesi</p>
+                </div>
+            </button>
+
+            <div class="pt-4">
+                <h4 class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 ml-4">Program Donasi Khusus</h4>
+                <div id="list-donasi-khusus-pilihan" class="space-y-3">
+                    </div>
+            </div>
+
+            <div class="pt-4 pb-4">
+                <p class="text-[10px] text-slate-400 text-center italic leading-relaxed">
+                    "Konfirmasi akan diteruskan ke WhatsApp Bendahara untuk divalidasi dengan mutasi rekening."
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="rincian-kas-modal" class="fixed inset-0 z-[200] invisible opacity-0 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm transition-all duration-300">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-t-[2.5rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl relative p-8">
+        <button onclick="closeModal('rincian-kas-modal')" class="absolute top-6 right-6 text-slate-400">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        
+        <div class="mb-8">
+            <h3 class="text-xl font-black text-slate-800 dark:text-white italic">Rincian Saldo</h3>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1">Akumulasi Dana Umat</p>
+        </div>
+
+        <div id="list-rincian-saldo" class="space-y-4">
+            </div>
+
+        <div class="mt-6 pt-6 border-t border-dashed border-slate-200 dark:border-slate-700">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Total Saldo</span>
+                <span id="total-saldo-akhir" class="text-xl font-black text-emerald-600">Rp 0</span>
+            </div>
+
+            <a href="https://docs.google.com/spreadsheets/d/1qv41AXRtivQOloCuG8a_lIlM61r-CqCWkmw3AurAy3o/edit?usp=drivesdk" 
+               target="_blank" 
+               class="flex items-center justify-center gap-3 w-full bg-slate-900 dark:bg-emerald-700 text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-400"></i>
+                Buka Laporan Digital
+            </a>
+            <p class="text-[8px] text-slate-400 text-center mt-4 font-medium italic">
+                Klik untuk melihat catatan pemasukan & pengeluaran lengkap.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then(() => {
+      console.log('Service Worker Terdaftar!');
+    });
+  }
+</script>
+
+<div id="sponsorModal" class="fixed inset-0 z-[999] hidden">
+    <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-md"></div>
+    <div class="absolute inset-x-0 bottom-0 top-10 bg-slate-50 rounded-t-[3rem] shadow-2xl flex flex-col overflow-hidden animate-slide-up">
+
+        <div class="px-8 pt-8 pb-4 flex items-center justify-between bg-white border-b border-slate-100">
+            <div>
+                <h3 class="text-xl font-black text-slate-800 uppercase tracking-tighter">Sponsor Kami</h3>
+                <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Mitra Musholah Baitul Muttaqin</p>
+            </div>
+            <button onclick="closeSponsorModal()" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center active:scale-90 transition-transform">
+                <i data-lucide="x" class="w-5 h-5 text-slate-600"></i>
+            </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-6 no-scrollbar">
+            <div id="sponsor-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-4">
+                </div>
+        </div>
+
+        <div class="p-6 bg-white border-t border-slate-100">
+            <a href="https://wa.me/6285155366258?text=Assalamu'alaikum%20Pak%20Ahmad%20Waluyo,%20saya%20tertarik%20untuk%20menjadi%20sponsor/mitra%20di%20layanan%20Digital%20Hub%20Mushola%20Baitul%20Muttaqin.%20Mohon%20informasinya." 
+               target="_blank"
+               class="flex items-center justify-center gap-3 w-full bg-emerald-700 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-200 active:scale-95 transition-all">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                Gabung Jadi Sponsor
+            </a>
+        </div>
+    </div>
+</div>
+
+
+    <div id="donaturModal" class="fixed inset-0 z-[999] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeDonaturModal()"></div>
+        <div class="absolute inset-x-0 bottom-0 top-20 bg-white dark:bg-slate-900 rounded-t-[3rem] shadow-2xl flex flex-col overflow-hidden animate-slide-up">
+            <div class="p-6 flex justify-between items-center border-b dark:border-slate-800">
+                <h2 class="font-black uppercase tracking-tighter text-slate-800 dark:text-white">Data Donatur</h2>
+                <button onclick="closeDonaturModal()" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-full text-slate-600 dark:text-slate-400">✕</button>
+            </div>
+            <div id="donatur-list-container" class="flex-1 overflow-y-auto p-4 no-scrollbar">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        
+    </script>
+
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('MBM Hub: PWA Aktif!'))
+        .catch(err => console.error('MBM Hub: PWA Gagal!', err));
+    });
+  }
+</script>
+
+<div id="tunai-modal" class="fixed inset-0 z-[120] invisible opacity-0 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm transition-all duration-300">
+    <div class="bg-white w-full max-w-md rounded-t-[2.5rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl relative p-8">
+        <button onclick="closeModal('tunai-modal')" class="absolute top-6 right-6 text-slate-400">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        
+        <div class="text-center mb-8">
+            <div class="w-20 h-20 bg-orange-100 text-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="banknote" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-xl font-black text-slate-800">Setor Tunai</h3>
+            <p class="text-xs text-slate-400 mt-1">Silakan datang langsung ke lokasi kami</p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-4">
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                    <i data-lucide="user-check" class="w-6 h-6 text-emerald-600"></i>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">Petugas Penerima</p>
+                    <p class="text-sm font-bold text-slate-800">Darmo</p>
+                </div>
+            </div> <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-red-500"></i>
+                    </div>
+                    <div> <p class="text-[10px] text-slate-400 font-bold uppercase">Lokasi Musholah</p>
+                        <p class="text-sm font-bold text-slate-800 leading-tight">Dk. Temu, RT 013 RW 005, Ds. Tamansari, Kec jatinegara, Kab. Tegal, Jawa Tengah.</p>
+                    </div>
+                </div>
+                <a href="https://maps.google.com" target="_blank" class="block w-full bg-white border border-slate-200 text-slate-700 text-center py-3 rounded-xl text-xs font-black uppercase tracking-wider active:scale-95 transition-all shadow-sm">
+                    Buka Google Maps
+                </a>
+            </div>
+        </div>
+
+        <button onclick="closeModal('tunai-modal')" class="w-full mt-6 bg-slate-900 text-white py-4 rounded-2xl font-bold text-sm">
+            Tutup
+        </button>
+    </div>
+</div>
+
+</body>
+
+
+</html>
