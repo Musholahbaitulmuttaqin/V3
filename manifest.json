@@ -1,0 +1,23 @@
+{
+  "name": "Baitul Muttaqin Digital Hub",
+  "short_name": "MBM App",
+  "description": "Portal Digital Musholah Baitul Muttaqin Dk. Temu, Tamansari, Tegal.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "Logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}
